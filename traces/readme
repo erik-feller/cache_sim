@@ -1,0 +1,28 @@
+
+The short traces are:
+
+  tr1
+  tr2
+  tr3
+  tr4
+  tr5
+  tr6
+
+They are in the traces-short directory.
+
+The long (production) traces are:
+
+astar.gz        Games/path findin
+bzip2.gz        Block sorting compression
+gobmk.gz        Go game
+libquantum.gz   Quantum computer simulation - complete
+omnetpp.gz      Discrete event simulation library
+sjeng.gz        Chess game
+
+The long traces are in gzip format and are in the traces-long directory.
+
+The traces-1M and traces-5M directories contain the first 1 million
+and 5 million instruction, respectively, of the long traces.
+For these, there are compressed and uncompressed versions of
+the traces.
+
