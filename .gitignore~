@@ -4,4 +4,4 @@
 *.zip
 *.iso
 *.tar
-
+/Debug/
