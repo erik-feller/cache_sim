@@ -14,4 +14,9 @@ public:
 	virtual ~LRU();
 };
 
+struct LruNode{
+    unsigned int way;
+    LruNode * next;
+}
+
 #endif /* LRU_H_ */
