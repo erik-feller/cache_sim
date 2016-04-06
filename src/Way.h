@@ -8,11 +8,11 @@
 #ifndef WAY_H_
 #define WAY_H_
 
-#include "Cache.h"
+#include "Dictionary.h"
 
-class Way: public Cache {
+class Way{
 public:
-	Way();
+	Way(int numWays);
 	virtual ~Way();
 };
 

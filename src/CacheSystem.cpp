@@ -1,18 +1,18 @@
 /*
- * Way.cpp
+ * CacheSystem.cpp
  *
  *  Created on: Apr 5, 2016
  *      Author: bryan
  */
 
-#include "Way.h"
+#include "CacheSystem.h"
 
-Way::Way(int numWays) {
+CacheSystem::CacheSystem() {
 	// TODO Auto-generated constructor stub
 
 }
 
-Way::~Way() {
+CacheSystem::~CacheSystem() {
 	// TODO Auto-generated destructor stub
 }
 

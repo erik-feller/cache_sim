@@ -8,9 +8,9 @@
 #ifndef VICTIM_H_
 #define VICTIM_H_
 
-#include "Cache.h"
+#include "Dictionary.h"
 
-class Victim: public Cache {
+class Victim{
 public:
 	Victim();
 	virtual ~Victim();

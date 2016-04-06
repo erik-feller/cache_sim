@@ -8,9 +8,9 @@
 #ifndef FULLYASS_H_
 #define FULLYASS_H_
 
-#include "Cache.h"
+#include "Dictionary.h"
 
-class FullyAss: public Cache {
+class FullyAss{
 public:
 	FullyAss();
 	virtual ~FullyAss();
