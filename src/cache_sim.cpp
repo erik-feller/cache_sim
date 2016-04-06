@@ -36,11 +36,17 @@ int main(int argc, char** argv) {
 	}
 	else{
 		//grab each line from the pipe
-		string lineInput;
-		while(getline(cin,lineInput)){
+		char op;
+        unsigned long long int address;
+        unsigned int bytesize;
+        while(scanf("%c %Lx %d\n", &op, &address, &bytesize) == 3){
+            //Process here
+            printf("Operation is %c\n", op);
+            printf("Address is %Lx\n", address);
+            printf("Size is %d\n", bytesize);
 
-			cout << "test" << lineInput << endl;
-		}
+        }
+
 	}
 
 
