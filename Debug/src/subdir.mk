@@ -4,16 +4,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/cache_sim.cpp \
-../src/conf_parser.cpp 
+../src/cache_sim.cpp 
 
 OBJS += \
-./src/cache_sim.o \
-./src/conf_parser.o 
+./src/cache_sim.o 
 
 CPP_DEPS += \
-./src/cache_sim.d \
-./src/conf_parser.d 
+./src/cache_sim.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

@@ -9,13 +9,20 @@
 
 CacheSystem::CacheSystem(map<string,int> conf) {
 
+	//make the L1 data cache
+
+	//make the L1 instruction cache
+
+	//make the L2 cache
 
 
 
+	//calculate the cost of system
+	this->calcCost(conf);
 
+}
 
-
-
+void CacheSystem::calcCost(map<string,int> conf){
 	//calculate cost of system
 	//L1
 	this->L1Cost = (conf["L1_cache_size"] / 4096) * 100;
@@ -40,12 +47,10 @@ CacheSystem::CacheSystem(map<string,int> conf) {
 
 	//total cost
 	this->totalCost = this->L1Cost + this->L2Cost + this->memCost;
-
-
-
 }
 
 void CacheSystem::reportCost(void) {
+	//report the cost of the system
 	cout << "L1 cache cost (Icache $" << this->L1Cost <<
 			") + (Dcache $" << this->L1Cost << ") = $" << this->L1Cost*2 << endl;
 	cout << "L2 cache cost = $" << this->L2Cost;

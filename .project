@@ -24,4 +24,10 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
+	<variableList>
+		<variable>
+			<name>classes</name>
+			<value>file:/home/bryan/workspace/cache_sim/src/classes</value>
+		</variable>
+	</variableList>
 </projectDescription>

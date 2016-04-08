@@ -24,12 +24,15 @@ public:
 
 private:
 	//data analytics stuff...
+
+
+	//cost stuff...
+	void calcCost(map<string,int> conf);
 	int L1Cost;
 	int L2Cost;
 	int memCost;
 	int totalCost;
-	//cost stuff...
-	//probably some other stuff
+	//probably some other stuff. I don't know
 };
 
 #endif /* CACHESYSTEM_H_ */

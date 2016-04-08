@@ -12,8 +12,8 @@
 #include <map>
 #include <stdio.h>
 #include <unistd.h>
-#include "conf_parser.h"
-#include "CacheSystem.h"
+#include "classes/conf_parser.h"
+#include "classes/CacheSystem.h"
 using namespace std;
 
 int main(int argc, char** argv) {
