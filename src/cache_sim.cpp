@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include "conf_parser.h"
+#include "CacheSystem.h"
 using namespace std;
 
 int main(int argc, char** argv) {
@@ -26,7 +27,12 @@ int main(int argc, char** argv) {
 	}
 
 	//get the config values
-	map<string,int> test = parseConfig(argv[1]);
+	map<string,int> conf = parseConfig(argv[1]);
+
+	//create the cache system
+	CacheSystem cs = CacheSystem(conf);
+	cs.reportCost();
+
 
 
 	//check that we are getting input from a pipe

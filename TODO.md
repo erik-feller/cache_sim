@@ -41,7 +41,7 @@ Cache{
 }
 
 CacheSystem{
-  constructor
+  constructor: make cache system (L1, L2, victim, etc). Setup all data analytics stuff
   destructor
   public:
     newInput(op, addr, size)

@@ -14,6 +14,7 @@ using namespace std;
 struct cacheElem{
 	unsigned int tag;
 	bool valid;
+	bool dirty;
 };
 
 

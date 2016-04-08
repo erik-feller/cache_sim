@@ -7,6 +7,8 @@
 
 #include "Dictionary.h"
 
+//TODO: need to figure out how to utilize the dirty bit
+
 //constructor...
 Dictionary::Dictionary(unsigned int nIndexes) {
 
@@ -18,6 +20,7 @@ Dictionary::Dictionary(unsigned int nIndexes) {
 		//set default values
 		this->dict[i]->tag = 0;
 		this->dict[i]->valid = false;
+		this->dict[i]->dirty = false;
 	}
 
 	//set the number of indexes (for future use)
@@ -30,7 +33,7 @@ bool Dictionary::check(unsigned int index, unsigned int checkTag){
 	//grab the cache element
 	struct cacheElem * elem = this->dict[index];
 
-	//is the element dirty?
+	//is the element valid?
 	if (elem->valid == false){
 		return false;
 	}
