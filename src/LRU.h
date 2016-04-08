@@ -9,9 +9,13 @@
 #define LRU_H_
 
 class LRU {
+private:
+    LruNode * head;
 public:
 	LRU();
-	virtual ~LRU();
+	virtual ~LRU(unsigned int num_ways);
+    void update(unsigned int t_way);
+    unsigned int fetch();
 };
 
 struct LruNode{
