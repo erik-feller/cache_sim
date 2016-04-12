@@ -1,16 +1,16 @@
 /*
  * Victim.h
  *
- *  Created on: Apr 5, 2016
+ *  Created on: Apr 12, 2016
  *      Author: bryan
  */
 
 #ifndef VICTIM_H_
 #define VICTIM_H_
 
-#include "Dictionary.h"
+#include "Cache.h"
 
-class Victim{
+class Victim: public Cache {
 public:
 	Victim();
 	virtual ~Victim();

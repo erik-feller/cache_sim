@@ -1,18 +1,18 @@
 /*
- * FullyAss.cpp
+ * Memory.cpp
  *
- *  Created on: Apr 5, 2016
+ *  Created on: Apr 12, 2016
  *      Author: bryan
  */
 
-#include "FullyAss.h"
+#include "Memory.h"
 
-FullyAss::FullyAss() {
+Memory::Memory() {
 	// TODO Auto-generated constructor stub
 
 }
 
-FullyAss::~FullyAss() {
+Memory::~Memory() {
 	// TODO Auto-generated destructor stub
 }
 

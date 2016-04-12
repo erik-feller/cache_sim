@@ -75,4 +75,3 @@ unsigned int LRU::fetch(){
    }
    return *curr.way;
 }
-
