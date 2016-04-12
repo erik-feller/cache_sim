@@ -45,12 +45,15 @@ LRU::~LRU() {
     }
 }
 
-LRU::void update(unsigned int t_way){
+void LRU::update(unsigned int t_way){
     LruNode* back = NULL;
-    LruNode* ahead = NULL;
     LruNode* curr = head;
-    while(*curr.way != t_way){
-
+    LruNode* ahead = *curr.next; 
+    while(*curr.way != t_way && ahead != NULL){
+        //step through the LRU until the way is found
+        back = curr;
+        curr = ahead;
+        ahead = *curr.next;
     }
     if(curr == &head){
         //The buffer is already correct
@@ -64,7 +67,12 @@ LRU::void update(unsigned int t_way){
 
 }
 
-LRU::unsigned int fetch(){
-
+unsigned int LRU::fetch(){
+   //Search to determine which way to kick 
+   LruNode* curr = head;
+   while(*curr.next != NULL){
+       curr = *curr.next;
+   }
+   return *curr.way;
 }
 
