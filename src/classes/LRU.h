@@ -1,26 +1,28 @@
-///*
-// * LRU.h
-// *
-// *  Created on: Apr 5, 2016
-// *      Author: bryan
-// */
-//
-//#ifndef LRU_H_
-//#define LRU_H_
-//
-//class LRU {
-//private:
-//    LruNode * head;
-//public:
-//	LRU();
-//	virtual ~LRU(unsigned int num_ways);
-//    void update(unsigned int t_way);
-//    unsigned int fetch();
-//};
-//
-//struct LruNode{
-//    unsigned int way;
-//    LruNode * next;
-//}
-//
-//#endif /* LRU_H_ */
+/*
+ * LRU.h
+ *
+ *  Created on: Apr 5, 2016
+ *      Author: bryan
+ */
+
+#ifndef LRU_H_
+#define LRU_H_
+
+struct LruNode{
+    int way;
+    LruNode *next;
+};
+
+class LRU {
+private:
+    LruNode *head;
+public:
+	LRU(int num_ways);
+	virtual ~LRU();
+    void update(int t_way);
+    int fetch();
+};
+
+
+
+#endif /* LRU_H_ */
