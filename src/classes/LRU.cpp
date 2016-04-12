@@ -35,9 +35,11 @@ LRU::LRU(unsigned int num_ways) {
 
 LRU::~LRU() {
 	// TODO Auto-generated destructor stub
-    LruNode* ahead = &head;
+    LruNode* current = NULL; //set up current node
+    LruNode* ahead = &head; //set ahead to fall into head pointer
     while(ahead != NULL){
-        LruNode* current = ahead;
+        //Delete current node and move on
+        current = ahead;
         ahead = current.next;
         delete current;
     }
@@ -51,7 +53,7 @@ LRU::void update(unsigned int t_way){
 
     }
     if(curr == &head){
-        //The buffer is alread correct
+        //The buffer is already correct
         return;
     }
     else{
