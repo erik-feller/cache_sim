@@ -1,19 +1,19 @@
 /*
  * Way.h
  *
- *  Created on: Apr 5, 2016
+ *  Created on: Apr 12, 2016
  *      Author: bryan
  */
 
-#ifndef WAY_H_
-#define WAY_H_
+#ifndef CLASSES_WAY_H_
+#define CLASSES_WAY_H_
 
-#include "Dictionary.h"
+#include "Cache.h"
 
-class Way{
+class Way: public Cache {
 public:
-	Way(int numWays);
+	Way();
 	virtual ~Way();
 };
 
-#endif /* WAY_H_ */
+#endif /* CLASSES_WAY_H_ */
