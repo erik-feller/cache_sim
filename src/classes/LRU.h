@@ -8,22 +8,21 @@
 #ifndef LRU_H_
 #define LRU_H_
 
-
 struct LruNode{
-    unsigned int way;
-    LruNode * next;
+    int way;
+    LruNode *next;
 };
-
 
 class LRU {
 private:
-    struct LruNode * head;
+    LruNode *head;
 public:
-	LRU();
+	LRU(int num_ways);
 	virtual ~LRU();
-    void update(unsigned int t_way);
-    unsigned int fetch();
+    void update(int t_way);
+    int fetch();
 };
+
 
 
 #endif /* LRU_H_ */
