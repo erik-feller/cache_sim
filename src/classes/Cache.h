@@ -10,9 +10,10 @@
 
 #include <map>
 #include <string>
+
 #include "LRU.h"
 #include "Dictionary.h"
-
+#include "Victim.h"
 
 using namespace std;
 
@@ -36,6 +37,14 @@ private:
 	//the next level in the cache
 	Cache* next;
 
+	//the config
+	struct config conf;
+
+	//important members
+	Victim* v;			//victim cache
+	LRU** lru;			//list of lru's indexed by index value
+	Dictionary** d;		//list of dictionaries indexed by way
+
 
 	//data tracking member variables
 	unsigned long long int hitCount;
@@ -44,8 +53,6 @@ private:
 	unsigned long long int dirtyKickouts;
 	unsigned long long int transfers;
 	unsigned long long int vcHitCount;
-
-
 
 };
 

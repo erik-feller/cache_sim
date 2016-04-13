@@ -8,11 +8,9 @@
 #ifndef VICTIM_H_
 #define VICTIM_H_
 
-#include "Cache.h"
-
-class Victim: public Cache{
+class Victim{
 public:
-	Victim(Cache* nextLevel, struct config conf);
+	Victim();
 	virtual ~Victim();
 };
 

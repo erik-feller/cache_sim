@@ -7,7 +7,7 @@
 
 #include "Victim.h"
 
-Victim::Victim(Cache* nextLevel, struct config conf): Cache(nextLevel, conf) {
+Victim::Victim() {
 	// TODO Auto-generated constructor stub
 
 }
