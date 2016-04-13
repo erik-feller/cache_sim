@@ -20,7 +20,7 @@ public:
 	LRU(int num_ways);
 	virtual ~LRU();
     void update(int t_way);
-    int fetch();
+    int fetch(void);
 };
 
 
