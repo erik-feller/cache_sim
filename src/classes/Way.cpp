@@ -7,7 +7,7 @@
 
 #include "Way.h"
 
-Way::Way() {
+Way::Way(Cache* nextLevel, struct config conf): Cache(nextLevel, conf) {
 	// TODO Auto-generated constructor stub
 
 }

@@ -12,7 +12,7 @@
 
 class Memory: public Cache {
 public:
-	Memory();
+	Memory(Cache* nextLevel, struct config conf);
 	virtual ~Memory();
 };
 

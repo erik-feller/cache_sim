@@ -7,8 +7,19 @@
 
 #include "Cache.h"
 
-Cache::Cache() {
-	// TODO Auto-generated constructor stub
+#include "Victim.h"
+
+Cache::Cache(Cache* nextLevel, struct config conf) {
+
+	//store the next level of the cache
+	this->next = nextLevel;
+
+	//create the victim cache
+
+
+	//create the dictionary(s)
+
+	//create the LRU(s)
 
 }
 

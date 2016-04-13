@@ -10,9 +10,9 @@
 
 #include "Cache.h"
 
-class Victim: public Cache {
+class Victim: public Cache{
 public:
-	Victim();
+	Victim(Cache* nextLevel, struct config conf);
 	virtual ~Victim();
 };
 

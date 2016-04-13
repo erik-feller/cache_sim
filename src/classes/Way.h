@@ -12,7 +12,7 @@
 
 class Way: public Cache {
 public:
-	Way();
+	Way(Cache* nextLevel, struct config conf);
 	virtual ~Way();
 };
 
