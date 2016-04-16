@@ -2,7 +2,7 @@
  * Victim.cpp
  *
  *  Created on: Apr 12, 2016
- *      Author: bryan
+ *      Author: bryan&erik
  */
 
 #include "Victim.h"
@@ -30,12 +30,39 @@ bool Victim::check(unsigned long long int addr){
     VicNode* curr = this->head;
     while(curr->address != addr){
        //check to see if at the end of viccache
-        
+       if(curr->next == NULL){
+           return false;
+       }
+       else{
+           curr = curr->next;
+       }
     }
+    this->reorder(addr);
+    return true;
 }
 
 bool Victim::swap(unsigned long long int oldAddr, unsigned long long int newAddr){
-    //TODO add code to swap two address 
+    //check to see if addr is actually in cache
+    if(!this->check(oldAddr)){
+       return false; 
+    }
+    else{
+        //Delete the oldAddr node
+        VicNode* curr = this->head;
+        VicNode* before = NULL;
+        while(curr->address != oldAddr){
+            before = curr;
+            curr = curr->next;
+        }
+        //check to see if oldAddr is already at the top.
+        if(before!=NULL){
+            before->next = curr->next;
+        }
+        delete(curr);
+
+        //create a new node and append it to the head
+        VicNode* tnew = new VicNode;
+            
 }
 
 bool Victim::push(unsigned long long int newAddr){
