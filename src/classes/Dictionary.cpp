@@ -28,7 +28,7 @@ Dictionary::Dictionary(unsigned int nIndexes) {
 }
 
 //checks to see if a certain index contains the tag (valid)
-bool Dictionary::check(unsigned int index, unsigned int checkTag){
+bool Dictionary::check(unsigned int index, unsigned long long int checkTag){
 
 	//grab the cache element
 	struct cacheElem * elem = this->dict[index];

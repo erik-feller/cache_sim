@@ -1,18 +1,18 @@
 /*
- * Memory.cpp
+ * L2.cpp
  *
- *  Created on: Apr 12, 2016
+ *  Created on: Apr 16, 2016
  *      Author: bryan
  */
 
-#include "Memory.h"
+#include "L2.h"
 
-Memory::Memory() {
+L2::L2(struct config conf): Way(conf){
 	// TODO Auto-generated constructor stub
 
 }
 
-Memory::~Memory() {
+L2::~L2() {
 	// TODO Auto-generated destructor stub
 }
 

@@ -7,6 +7,8 @@ CPP_SRCS += \
 ../src/classes/Cache.cpp \
 ../src/classes/CacheSystem.cpp \
 ../src/classes/Dictionary.cpp \
+../src/classes/L1.cpp \
+../src/classes/L2.cpp \
 ../src/classes/LRU.cpp \
 ../src/classes/Memory.cpp \
 ../src/classes/Victim.cpp \
@@ -17,6 +19,8 @@ OBJS += \
 ./src/classes/Cache.o \
 ./src/classes/CacheSystem.o \
 ./src/classes/Dictionary.o \
+./src/classes/L1.o \
+./src/classes/L2.o \
 ./src/classes/LRU.o \
 ./src/classes/Memory.o \
 ./src/classes/Victim.o \
@@ -27,6 +31,8 @@ CPP_DEPS += \
 ./src/classes/Cache.d \
 ./src/classes/CacheSystem.d \
 ./src/classes/Dictionary.d \
+./src/classes/L1.d \
+./src/classes/L2.d \
 ./src/classes/LRU.d \
 ./src/classes/Memory.d \
 ./src/classes/Victim.d \

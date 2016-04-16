@@ -24,7 +24,7 @@ public:
 	//constructor that initializes it with the correct number of indexes
 	Dictionary(unsigned int nIndexes);
 	//checks to see if a certain index contains the tag (valid)
-	bool check(unsigned int index, unsigned int tag);
+	bool check(unsigned int index, unsigned long long int tag);
 	//change the specified index to the new tag
 	void update(unsigned int index, unsigned int tag);
 	//flush the cache
