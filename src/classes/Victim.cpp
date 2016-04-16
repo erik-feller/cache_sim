@@ -58,19 +58,54 @@ bool Victim::swap(unsigned long long int oldAddr, unsigned long long int newAddr
         if(before!=NULL){
             before->next = curr->next;
         }
-        delete(curr);
-
         //create a new node and append it to the head
         VicNode* tnew = new VicNode;
-            
+        tnew->address = newAddr;
+        tnew->dirty = false;
+        tnew->next = head;
+        this->head = tnew;
+        delete(curr);
+    }
+    return true;
+        
 }
 
 bool Victim::push(unsigned long long int newAddr){
-    //TODO delete the old item add the new one
+    //pushes a new item onto the stack discarding the least recently used one.
+    //delete the last item
+    VicNode* curr = this->head;
+    VicNode* before = NULL;
+    while(curr->next != NULL){
+        before = curr;
+        curr = curr->next;
+    }
+    before->next = NULL;
+    delete(curr);
+    VicNode* thead = new VicNode;
+    thead->dirty = false;
+    thead->address = newAddr;
+    thead->next = this->head;
+    this->head = thead;
+    return true;
+        
 }
 
 void Victim::reorder(unsigned long long int target){
     //TODO place the targe on top of the victim cache
+    VicNode* curr;
+    VicNode* before = NULL;
+    while(curr->address != target && curr->next != NULL){
+        before = curr; 
+        curr = curr->next;
+    }
+    if(curr->next == NULL){
+        return;
+    }
+    else{
+        before->next = curr->next;
+        curr->next = this->head;
+        this->head = curr;
+    }
 }
 
 Victim::~Victim() {
