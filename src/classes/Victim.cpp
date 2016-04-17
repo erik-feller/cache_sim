@@ -25,7 +25,7 @@ Victim::Victim() {
     this->head = thead;
 }
 
-bool Victim::check(unsigned long long int addr){
+bool Victim::check(unsigned long long int tag, unsigned int index){
     // TODO add code to check for an address
     VicNode* curr = this->head;
     while(curr->address != addr){
@@ -41,9 +41,10 @@ bool Victim::check(unsigned long long int addr){
     return true;
 }
 
-bool Victim::swap(unsigned long long int oldAddr, unsigned long long int newAddr){
+bool Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, unsigned long long int newTag, unsigned int oldIndex){
     //check to see if addr is actually in cache
-    if(!this->check(oldAddr)){
+    if(!this->check(oldTag, oldIndex)){
+
        return false; 
     }
     else{
