@@ -66,7 +66,7 @@ int L1::read(unsigned long long int address){
 
 
 	//check the victim cache
-	if(this->v->check(address)){  //TODO: change this to swap
+	if(this->v->swap(elemToReplace->tag, addr.index, addr.tag, addr.index)){
 		//have a hit
 		this->track.vcHitCount++;
 		//return the time
@@ -142,7 +142,7 @@ int L1::write(unsigned long long int address){
 
 
 	//check the victim cache
-	if(this->v->check(address)){  //TODO: change this to swap
+	if(this->v->swap(elemToReplace->tag, addr.index, addr.tag, addr.index)){
 
 		//TODO: set that specific thing to dirty
 

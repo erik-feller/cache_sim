@@ -65,7 +65,7 @@ int L2::transferRead(unsigned long long int address){
 
 
 	//check the victim cache
-	if(this->v->check(address)){  //TODO: change this to swap
+	if(this->v->swap(elemToReplace->tag, addr.index, addr.tag, addr.index)){
 		//have a hit
 		this->track.vcHitCount++;
 		//return the time
