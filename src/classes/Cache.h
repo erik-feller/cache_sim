@@ -21,6 +21,7 @@ using namespace std;
 
 //struct for data tracking stuff
 struct analyitcs{
+	unsigned long long int totalReq;
 	unsigned long long int hitCount;
 	unsigned long long int missCount;
 	unsigned long long int kickouts;
@@ -41,9 +42,11 @@ public:
 	//destructor
 	virtual ~Cache();
 
-private:
 	//data tracking
 	struct analyitcs track;
+
+private:
+
 
 };
 

@@ -7,12 +7,101 @@
 
 #include "L2.h"
 
-L2::L2(struct config conf): Way(conf){
-	// TODO Auto-generated constructor stub
+L2::L2(Memory* nextLevel, struct config conf, struct L2TransConfig transConf): Way(conf){
+
+	//store the parameters
+	this->next = nextLevel;
+	this->transConf = transConf;
+	this->blockTransferTime = transConf.transferTime * (transConf.L1BlockSize / transConf.busWidth);
+}
+
+
+int L2::transferRead(unsigned long long int address){
+
+	//check the main cache...
+	this->track.totalReq++;
+	//grab tag/index from address
+	struct address addr = this->makeTagIndex(address);
+
+	//check each way to see if it is in the cache
+	for(int i=0;i<this->conf.assoc;++i){
+		if(this->d[i]->check(addr.index,addr.tag)){
+
+			if (this->lru != NULL){
+				//update the lru
+				this->lru[addr.index]->update(i);
+			}
+
+			//hit
+			this->track.hitCount++;
+
+			//TODO: L2 return hit time + transfer time?
+			return this->conf.hitTime + this->blockTransferTime;
+		}
+	}
+
+	//miss
+	this->track.missCount++;
+
+
+	//it isn't in the main cache, look in victim...
+	//find the thing that we are going to be throwing away (in L2 primary cache)
+	int toReplace = 0;
+	if(this->lru != NULL){
+		toReplace = this->lru[addr.index]->fetch();
+	}
+
+	//get the cache elem in question
+	struct cacheElem* elemToReplace = this->d[toReplace]->getItem(addr.index);
+	//is this a kickout?
+	if(elemToReplace->valid){
+		this->track.kickouts++;
+	}
+
+	if(elemToReplace->dirty){
+		this->track.dirtyKickouts++;
+		//TODO: handle dirty kickout here
+	}
+
+
+	//check the victim cache
+	if(this->v->check(address)){  //TODO: change this to swap
+		//have a hit
+		this->track.vcHitCount++;
+		//return the time
+		return this->conf.hitTime + this->blockTransferTime;
+	}
+
+
+	//if we make it to this point, the block isn't in the L1 cache. :(
+	int totalTime = this->conf.missTime;
+
+	//transfer the value from the next level (and get time it took to do that)
+	//TODO: uncomment this for the analog memory function
+//	totalTime += this->next->transferRead(address);
+
+
+	//TODO: place the thrown out value into victim?
+
+	//place the new element into the dictionary
+	this->d[toReplace]->update(addr.index,addr.tag);
+
+	//return the total time it took to do the full operation
+	return totalTime;
+
+
+
 
 }
 
+int L2::transferWrite(unsigned long long int address){
+
+	//I'm pretty certain that this is exactly the same as a transfer read...
+	return transferRead(address);
+}
+
+
 L2::~L2() {
-	// TODO Auto-generated destructor stub
+	// TODO: do I need to call ~Cache() here? I don't know...
 }
 

@@ -33,13 +33,6 @@ struct config{
 
 class Way: public Cache {
 public:
-	Way(struct config conf);
-	int read(unsigned long long address);
-	virtual ~Way();
-
-private:
-	struct address makeTagIndex(unsigned long long int address);
-
 	//the config
 	struct config conf;
 
@@ -47,6 +40,16 @@ private:
 	Victim* v;			//victim cache
 	LRU** lru;			//list of lru's indexed by index value
 	Dictionary** d;		//list of dictionaries indexed by way
+
+
+	Way(struct config conf);
+	struct address makeTagIndex(unsigned long long int address);
+	virtual ~Way();
+
+private:
+
+
+
 };
 
 #endif /* CLASSES_WAY_H_ */

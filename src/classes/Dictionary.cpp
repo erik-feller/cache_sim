@@ -60,6 +60,9 @@ void Dictionary::update(unsigned int index, unsigned int newTag){
 
 	//set valid bit
 	elem->valid = true;
+
+	//set not-dirty
+	elem->dirty = false;
 }
 
 //flush the cache
@@ -70,6 +73,17 @@ void Dictionary::flush(void){
 		this->dict[i]->valid = false;
 	}
 }
+
+//get specific element
+struct cacheElem* Dictionary::getItem(unsigned int index){
+	return this->dict[index];
+}
+
+//set the dirty bit to true for the specific index
+void Dictionary::setDirty(unsigned int index){
+	this->dict[index]->dirty = true;
+}
+
 
 //destructor
 Dictionary::~Dictionary() {

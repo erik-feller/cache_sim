@@ -39,45 +39,6 @@ Way::Way(struct config conf){
 }
 
 
-int Way::read(unsigned long long int address){
-
-	//grab tag/index from address
-	struct address addr = this->makeTagIndex(address);
-
-	//check each way to see if it is in the cache
-	for(int i=0;i<this->conf.assoc;++i){
-		if(this->d[i]->check(addr.index,addr.tag)){
-
-			//update the lru
-			this->lru[addr.index]->update(i);
-
-			//return the hit time
-			return this->conf.hitTime;
-		}
-	}
-
-	//check the victim cache
-//	if(this->v->check(address)){
-//		//TODO: do the replacement thing
-//
-//		return this->conf.hitTime;
-//	}
-
-
-	//if we make it to this point, the block isn't in the cache. :(
-	int totalTime = this->conf.missTime;
-
-	//do stuff with the victim cache (throw away the bottom of the stack
-
-	//transfer the value from the next level (and get time to do that)
-
-	//place the thrown out value into victim
-
-	return totalTime;
-
-
-}
-
 struct address Way::makeTagIndex(unsigned long long int address){
 	//split the original address into a tag and an index
 
@@ -92,7 +53,12 @@ struct address Way::makeTagIndex(unsigned long long int address){
 
 	//shift things around to get the values
 	ret.tag = address >> (sizeByteOffset + sizeBlockOffset + sizeIndex);
-	ret.index = (address << sizeTag) >> (sizeTag+sizeByteOffset+sizeBlockOffset);
+	if(sizeIndex == 0){
+		ret.index = -1;
+	}
+	else{
+		ret.index = (address << sizeTag) >> (sizeTag+sizeByteOffset+sizeBlockOffset);
+	}
 	ret.blockOffset = (address << (sizeTag+sizeIndex)) >> (sizeTag+sizeIndex+sizeByteOffset);
 	ret.byteOffset = (address << (sizeTag+sizeIndex+sizeBlockOffset)) >> (sizeTag+sizeIndex+sizeBlockOffset);
 

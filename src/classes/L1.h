@@ -9,13 +9,21 @@
 #define CLASSES_L1_H_
 
 #include "Way.h"
+#include "L2.h"
 
 using namespace std;
 
+
 class L1: public Way {
 public:
-	L1(struct config conf);
+	L1(L2* nextLevel, struct config conf);
+	int read(unsigned long long int address);
+	int write(unsigned long long int address);
 	virtual ~L1();
+
+private:
+	L2* next;
+
 };
 
 

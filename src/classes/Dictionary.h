@@ -29,6 +29,10 @@ public:
 	void update(unsigned int index, unsigned int tag);
 	//flush the cache
 	void flush(void);
+	//get the element at a specific location
+	struct cacheElem* getItem(unsigned int index);
+	//set the dirty bit to true for the specific index
+	void setDirty(unsigned int index);
 
 	virtual ~Dictionary();
 
