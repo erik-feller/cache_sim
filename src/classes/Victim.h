@@ -41,7 +41,7 @@ private:
     bool push(unsigned long long int tarTag, unsigned int tarIndex);
 	//dirty kickout
     //re-order
-    void reorder();
+    void reorder(unsigned long long int tarTag, unsigned int tarIndex);
     //check for addr
 
 	//i dont know...

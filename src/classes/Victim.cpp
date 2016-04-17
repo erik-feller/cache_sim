@@ -12,23 +12,29 @@ Victim::Victim() {
 	// TODO Auto-generated constructor stub
     VicNode* thead = new VicNode;
     thead->next = NULL;
-    thead->address = 0;
-    thead->dirty = true;
+    VcacheElem* temp = new VcacheElem;
+    temp->dirty = false; 
+    temp->valid = false;
+    temp->tag = 0;
+    temp->index = 0;
+    thead->element = temp;
     VicNode* curr = thead;
     for(int i = 0; i < 7; ++i){
         curr->next = new VicNode;
         curr = curr->next;
         curr->next = NULL;
-        curr->address = 0;
-        curr->dirty = true;
+        temp = new VcacheElem;
+        temp->dirty = false;
+        temp->valid = 0;
+        curr->element = temp;
     }
     this->head = thead;
 }
 
-bool Victim::check(unsigned long long int tag, unsigned int index){
+bool Victim::check(unsigned long long int tarTag, unsigned int tarIndex){
     // TODO add code to check for an address
     VicNode* curr = this->head;
-    while(curr->address != addr){
+    while(curr->element->tag != tarTag && curr->element->index != tarIndex){
        //check to see if at the end of viccache
        if(curr->next == NULL){
            return false;
@@ -37,21 +43,21 @@ bool Victim::check(unsigned long long int tag, unsigned int index){
            curr = curr->next;
        }
     }
-    this->reorder(addr);
+    this->reorder(tarTag, tarIndex);
     return true;
 }
 
-bool Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, unsigned long long int newTag, unsigned int oldIndex){
+bool Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, unsigned long long int newTag, unsigned int newIndex){
     //check to see if addr is actually in cache
     if(!this->check(oldTag, oldIndex)){
-
+       this->push(newTag, newIndex);
        return false; 
     }
     else{
         //Delete the oldAddr node
         VicNode* curr = this->head;
         VicNode* before = NULL;
-        while(curr->address != oldAddr){
+        while(curr->element->tag != oldTag && curr->element->index != oldIndex){
             before = curr;
             curr = curr->next;
         }
@@ -61,9 +67,12 @@ bool Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, unsigned
         }
         //create a new node and append it to the head
         VicNode* tnew = new VicNode;
-        tnew->address = newAddr;
-        tnew->dirty = false;
         tnew->next = head;
+        curr->element->tag = newTag;
+        curr->element->index = newIndex;
+        curr->element->valid = true;
+        curr->element->dirty = true;
+        tnew->element = curr->element;
         this->head = tnew;
         delete(curr);
     }
@@ -71,7 +80,7 @@ bool Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, unsigned
         
 }
 
-bool Victim::push(unsigned long long int newAddr){
+bool Victim::push(unsigned long long int tarTag, unsigned int tarIndex){
     //pushes a new item onto the stack discarding the least recently used one.
     //delete the last item
     VicNode* curr = this->head;
@@ -81,25 +90,29 @@ bool Victim::push(unsigned long long int newAddr){
         curr = curr->next;
     }
     before->next = NULL;
-    delete(curr);
     VicNode* thead = new VicNode;
-    thead->dirty = false;
-    thead->address = newAddr;
+    thead->element = curr->element;
+    delete(curr);
     thead->next = this->head;
     this->head = thead;
+    thead->element->tag = tarTag;
+    thead->element->index = tarIndex;
+    thead->element->valid = true;
+    thead->element->dirty = true;
     return true;
         
 }
 
-void Victim::reorder(unsigned long long int target){
+void Victim::reorder(unsigned long long int tarTag, unsigned int tarIndex){
     //TODO place the targe on top of the victim cache
     VicNode* curr;
     VicNode* before = NULL;
-    while(curr->address != target && curr->next != NULL){
+    while(curr->element->tag != tarTag && curr->element->index != tarIndex && curr->next != NULL){
         before = curr; 
         curr = curr->next;
     }
-    if(curr->next == NULL){
+    //if before == NULL then the its the first buffer element
+    if(before == NULL){
         return;
     }
     else{
@@ -114,7 +127,8 @@ Victim::~Victim() {
     VicNode* curr = this->head;
     VicNode* ahead = curr->next;
     while(ahead != NULL){
-        delete curr;
+        delete(curr->element);
+        delete(curr);
         curr = ahead;
         ahead = curr->next;
     }
