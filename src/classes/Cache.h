@@ -10,6 +10,7 @@
 
 #include <map>
 #include <string>
+#include <iostream>
 #include <math.h>
 
 #include "LRU.h"
@@ -21,6 +22,7 @@ using namespace std;
 
 //struct for data tracking stuff
 struct analyitcs{
+	string name;
 	unsigned long long int totalReq;
 	unsigned long long int hitCount;
 	unsigned long long int missCount;

@@ -8,9 +8,10 @@
 #include "Way.h"
 
 Way::Way(struct config conf){
-	//store the next level of the cache
 
+	//store the configuration stuff
 	this->conf = conf;
+	this->track.name = conf.name;
 
 	//create the victim cache
 	this->v = new Victim();
