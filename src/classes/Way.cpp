@@ -47,24 +47,22 @@ struct address Way::makeTagIndex(unsigned long long int address){
 	struct address ret;
 
 	//get the sizes of things
-	int sizeByteOffset = 2;
 	int sizeBlockOffset = log2(this->conf.blockSize);
 	int sizeIndex = log2(this->conf.cacheSize/this->conf.blockSize/this->conf.assoc);
-	int sizeTag = 64 - sizeByteOffset - sizeIndex - sizeBlockOffset;
+	int sizeTag = 64 - sizeIndex - sizeBlockOffset;
 
 	//shift things around to get the values
-	ret.tag = address >> (sizeByteOffset + sizeBlockOffset + sizeIndex);
+	ret.tag = address >> ( sizeBlockOffset + sizeIndex);
 	if(sizeIndex == 0){
 		ret.index = -1;
 	}
 	else{
-		ret.index = (address << sizeTag) >> (sizeTag+sizeByteOffset+sizeBlockOffset);
+		ret.index = (address << sizeTag) >> (sizeTag+sizeBlockOffset);
 	}
-	ret.blockOffset = (address << (sizeTag+sizeIndex)) >> (sizeTag+sizeIndex+sizeByteOffset);
-	ret.byteOffset = (address << (sizeTag+sizeIndex+sizeBlockOffset)) >> (sizeTag+sizeIndex+sizeBlockOffset);
+	ret.blockOffset = (address << (sizeTag+sizeIndex)) >> (sizeTag+sizeIndex);
 
+	//return address, index, block offset
 	return ret;
-
 
 }
 

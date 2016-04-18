@@ -38,7 +38,8 @@ class Cache {
 public:
 	//constructor
 	Cache();
-
+	//initialize tracking stuff to zero...
+	void initTracking(void);
 	//get data analytics?
 	void getTrackingData(void);
 	//destructor

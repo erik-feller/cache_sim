@@ -14,7 +14,6 @@
 struct address{
 	unsigned int index;
 	unsigned long long int tag;
-	unsigned int byteOffset;
 	unsigned int blockOffset;
 };
 

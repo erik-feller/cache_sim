@@ -11,6 +11,18 @@
 
 Cache::Cache() {
 	//nothing special here...
+	this->initTracking();
+}
+
+void Cache::initTracking(void){
+	this->track.dirtyKickouts=0;
+	this->track.hitCount = 0;
+	this->track.kickouts = 0;
+	this->track.missCount = 0;
+	this->track.name = "";
+	this->track.totalReq = 0;
+	this->track.transfers = 0;
+	this->track.vcHitCount  = 0;
 }
 
 Cache::~Cache() {
