@@ -85,7 +85,7 @@ unsigned int Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, 
     unsigned int retval = 3;
     //check to see if addr is actually in cache
     if(!this->check(oldTag, oldIndex)){
-       if(this->push(newTag, newIndex)){
+       if(this->push(newTag, newIndex, tarD)){
            retval = 1;
        }
        else{
