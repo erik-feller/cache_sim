@@ -20,6 +20,9 @@ CacheSystem::CacheSystem(map<string,int> conf) {
 	this->track.numReads = 0;
 	this->track.numWrites = 0;
 
+	//keep the L1 block size (used in finding the number of requests needed)
+	this->L1BlockSize = conf["L1_block_size"];
+
 	//make memory
 //	struct memConfig memConf;
 	this->mem = new Memory();//memConf);
@@ -61,24 +64,33 @@ CacheSystem::CacheSystem(map<string,int> conf) {
 
 void CacheSystem::newInstruction(char op, unsigned long long int address, unsigned int numBytes){
 
+	//get the list of address request to L1
+	vector<unsigned long long int > addressList = this->getAddrList(address,numBytes);
+
 
 	switch(op){
 	//an instruction
 	case 'I':
 		this->track.numInst++;
-		//blah blah blah
+		for(int i=0; i<addressList.size(); ++i){
+			this->track.execTime += this->L1i_cache->read(addressList[i]);
+		}
 		break;
 
 	//data read
 	case 'R':
 		this->track.numReads++;
-		//blah blah blah
+		for(int i=0; i<addressList.size(); ++i){
+			this->track.execTime += this->L1d_cache->read(addressList[i]);
+		}
 		break;
 
 	//data write
 	case 'W':
 		this->track.numWrites++;
-		//blah blah blah
+		for(int i=0; i<addressList.size(); ++i){
+			this->track.execTime += this->L1d_cache->write(addressList[i]);
+		}
 		break;
 
 	//something's wrong...
@@ -86,6 +98,48 @@ void CacheSystem::newInstruction(char op, unsigned long long int address, unsign
 		cout << "got an invalid op character: " << op << endl;
 		return;
 	}
+}
+
+
+vector<unsigned long long int> CacheSystem::getAddrList(unsigned long long int address, unsigned int numBytes){
+	//returns a list of addresses based on the block offset of the base address
+	//and the number of bytes requested
+	//This is a little gross...I'm sorry. I tried to comment well.
+
+
+	//use one of the L1 caches to get the block offset of the address
+	unsigned int offset = this->L1d_cache->makeTagIndex(address).blockOffset;
+
+	//typecast numBytes as int so it can go negative
+	int bytesRemaining = (int) numBytes;
+
+	//init the return vector and add the base address
+	vector<unsigned long long int> addresses;
+	addresses.push_back(address);
+
+	//get i pointing to the next largest block of 4
+	unsigned int i=0;
+	while(i<=offset) i+=4;
+
+	//do the first subtraction...
+	bytesRemaining -= 4;
+
+	//get the remaining byte-aligned addresses
+	int numBlocks =0;
+	int misalignment = i-offset;
+	while(bytesRemaining >0){
+		//push in the aligned address
+		addresses.push_back(address+misalignment+(numBlocks*4));
+		//increase the number of blocks
+		numBlocks++;
+		//subtract the number of bytes remaining
+		bytesRemaining -= 4;
+	}
+
+
+	//return the list of addresses
+	return addresses;
+
 }
 
 

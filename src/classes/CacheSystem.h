@@ -12,6 +12,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 #include "L1.h"
 #include "L2.h"
@@ -35,6 +36,9 @@ public:
 	virtual ~CacheSystem();
 
 private:
+	//get a list of addresses based on the base address and the number of bytes requested
+	vector<unsigned long long int> getAddrList(unsigned long long int address, unsigned int numBytes);
+
 	//data analytics stuff...
 	struct sysAnalytics track;
 
@@ -44,6 +48,9 @@ private:
 	int costL2;
 	int costMem;
 	int costTotal;
+
+	//keep the size of the blocks in L1
+	int L1BlockSize;
 
 
 	//make the levels of the cache
