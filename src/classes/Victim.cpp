@@ -25,7 +25,9 @@ Victim::Victim() {
         curr->next = NULL;
         temp = new VcacheElem;
         temp->dirty = false;
-        temp->valid = 0;
+        temp->valid = false;
+        temp->tag = 0;
+        temp->index = 0;
         curr->element = temp;
     }
     this->head = thead;
@@ -43,7 +45,6 @@ bool Victim::check(unsigned long long int tarTag, unsigned int tarIndex){
            curr = curr->next;
        }
     }
-    this->reorder(tarTag, tarIndex);
     return true;
 }
 
@@ -66,16 +67,13 @@ bool Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, unsigned
             before->next = curr->next;
         }
         //create a new node and append it to the head
-        VicNode* tnew = new VicNode;
-        tnew->next = head;
-        VcacheElem* temp = new VcacheElem;
-        temp->tag = newTag;
-        temp->index = newIndex;
-        temp->valid = true;
-        temp->dirty = true;
-        tnew->element = temp;
-        this->head = tnew;
-        delete(curr);
+        VicNode* tnew = head;
+        curr->element->tag = newTag;
+        curr->element->index = newIndex;
+        curr->element->valid = true;
+        curr->element->dirty = true;
+        curr->next = tnew;
+        this->head = curr;
     }
     return true;
         
@@ -91,16 +89,16 @@ bool Victim::push(unsigned long long int tarTag, unsigned int tarIndex){
         curr = curr->next;
     }
     before->next = NULL;
-    VicNode* thead = new VicNode;
+    /*VicNode* thead = new VicNode;
     VcacheElem* tempe = new VcacheElem;
     thead->element = tempe;
-    delete(curr);
-    thead->next = this->head;
-    this->head = thead;
-    thead->element->tag = tarTag;
-    thead->element->index = tarIndex;
-    thead->element->valid = true;
-    thead->element->dirty = true;
+    delete(curr);*/
+    curr->next = this->head;
+    this->head = curr;
+    curr->element->tag = tarTag;
+    curr->element->index = tarIndex;
+    curr->element->valid = true;
+    curr->element->dirty = true;
     return true;
         
 }
