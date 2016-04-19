@@ -3,21 +3,35 @@
  *
  *  Created on: Apr 12, 2016
  *      Author: bryan&erik
+ *      
+ *  Only run the swap function which will automatically determine if the requested block is present as 
+ *  well as determine if the kickout was dirty. it will return an integer from 0-3 and the output is
+ *  encoded as follows
+ *
+ *      0 - VC miss, clean member evicted
+ *      1 - VC miss, dirty member evicted
+ *      2 - VC hit, clean member evicted
+ *      3 - VC hit, dirty member evicted
+ *
+ *  After a 1 or 2 is returned, the functhion check_dirt should be called to retrieve the information
+ *  from the most recently evicted member of the VC. This will return a null if this member is invalid
  */
 
 #include "Victim.h"
 #include <cstddef>
 
 Victim::Victim() {
-	// TODO Auto-generated constructor stub
+    //Create a node for head and set the point to null
     VicNode* thead = new VicNode;
     thead->next = NULL;
+    //Build up the VcacheElement for head
     VcacheElem* temp = new VcacheElem;
     temp->dirty = false; 
     temp->valid = false;
     temp->tag = 0;
     temp->index = 0;
     thead->element = temp;
+    //Set up for the for loop to create the remaining elems
     VicNode* curr = thead;
     for(int i = 0; i < 7; ++i){
         curr->next = new VicNode;
@@ -31,12 +45,27 @@ Victim::Victim() {
         curr->element = temp;
     }
     this->head = thead;
+    //setup the dirty placeholder element
+    VcacheElem* temp_ele = new VcacheElem;
+    temp_ele->valid = false;
+    this->vic = temp_ele;
+}
+
+VcacheElem* Victim::check_dirt(){
+    //return the dirty kickout address unless invalid, then null
+    if(this->vic->valid == false){
+        return NULL;
+    }
+    else{
+        //returns pointer to vic
+        return this->vic;
+    }
 }
 
 bool Victim::check(unsigned long long int tarTag, unsigned int tarIndex){
     // TODO add code to check for an address
     VicNode* curr = this->head;
-    while((curr->element->tag != tarTag) || (curr->element->index != tarIndex){
+    while((curr->element->tag != tarTag) || (curr->element->index != tarIndex)){
        //check to see if at the end of viccache
        if(curr->next == NULL){
            return false;
@@ -51,11 +80,18 @@ bool Victim::check(unsigned long long int tarTag, unsigned int tarIndex){
     return false;
 }
 
-bool Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, unsigned long long int newTag, unsigned int newIndex){
+unsigned int Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, unsigned long long int newTag, unsigned int newIndex, bool tarD){
+    //set up return val
+    unsigned int retval = 3;
     //check to see if addr is actually in cache
     if(!this->check(oldTag, oldIndex)){
-       this->push(newTag, newIndex);
-       return false; 
+       if(this->push(newTag, newIndex)){
+           retval = 1;
+       }
+       else{
+           retval = 0;
+       }
+       return retval; 
     }
     else{
         //Delete the oldAddr node
@@ -71,10 +107,22 @@ bool Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, unsigned
         }
         //create a new node and append it to the head
         VicNode* tnew = head;
+        //set up the vic if the evicted member is dirty
+        if(curr->element->dirty){
+            this->vic->tag = curr->element->tag;
+            this->vic->index = curr->element->index;
+            this->vic->dirty = true;
+            this->vic->valid = true;
+            retval = 4;
+        }
+        else{
+            this->vic->valid = false;
+        }
+        //Now move curr
         curr->element->tag = newTag;
         curr->element->index = newIndex;
         curr->element->valid = true;
-        curr->element->dirty = true;
+        curr->element->dirty = tarD;
         curr->next = tnew;
         this->head = curr;
     }
@@ -82,9 +130,11 @@ bool Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, unsigned
         
 }
 
-bool Victim::push(unsigned long long int tarTag, unsigned int tarIndex){
+bool Victim::push(unsigned long long int tarTag, unsigned int tarIndex, bool tarD){
     //pushes a new item onto the stack discarding the least recently used one.
     //delete the last item
+    //set up retval
+    bool retval = false;
     VicNode* curr = this->head;
     VicNode* before = NULL;
     while(curr->next != NULL){
@@ -92,13 +142,24 @@ bool Victim::push(unsigned long long int tarTag, unsigned int tarIndex){
         curr = curr->next;
     }
     before->next = NULL;
+    //if the kicked member was dirty set the vic
+    if(curr->element->dirty){
+        this->vic->tag = curr->element->tag;
+        this->vic->index = curr->element->index;
+        this->vic->valid = true;
+        this->vic->dirty = true;
+        retval = true;
+    }
+    else{
+        this->vic->valid = false;
+    }
     curr->next = this->head;
     this->head = curr;
     curr->element->tag = tarTag;
     curr->element->index = tarIndex;
     curr->element->valid = true;
-    curr->element->dirty = true;
-    return true;
+    curr->element->dirty = tarD;
+    return retval;
         
 }
 
@@ -132,5 +193,6 @@ Victim::~Victim() {
         ahead = curr->next;
     }
     delete curr;
+    delete vic;
 }
 

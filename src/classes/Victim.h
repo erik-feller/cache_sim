@@ -27,7 +27,8 @@ public:
     //Creator
 	Victim();
 	//replace an entry in the victim cache
-	bool swap(unsigned long long int oldTag, unsigned int oldIndex, unsigned long long int newTag, unsigned int newIndex);
+	unsigned int swap(unsigned long long int oldTag, unsigned int oldIndex, unsigned long long int newTag, unsigned int newIndex, bool tarD);
+    VcacheElem* check_dirt();
     //destructor
 	virtual ~Victim();
 
@@ -35,10 +36,11 @@ public:
 private:
     
     VicNode* head;
+    VcacheElem* vic;
     //returns if an item is present in the victim cache, and the location (-1 if not in, otherwise [0-7]
 	bool check(unsigned long long int tarTag, unsigned int tarIndex);
     //Add item to the chache. Kickout the least recent member
-    bool push(unsigned long long int tarTag, unsigned int tarIndex);
+    bool push(unsigned long long int tarTag, unsigned int tarIndex, bool tarD);
 	//dirty kickout
     //re-order
     void reorder(unsigned long long int tarTag, unsigned int tarIndex);
