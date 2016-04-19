@@ -36,7 +36,7 @@ Victim::Victim() {
 bool Victim::check(unsigned long long int tarTag, unsigned int tarIndex){
     // TODO add code to check for an address
     VicNode* curr = this->head;
-    while(curr->element->tag != tarTag && curr->element->index != tarIndex){
+    while((curr->element->tag != tarTag) || (curr->element->index != tarIndex){
        //check to see if at the end of viccache
        if(curr->next == NULL){
            return false;
@@ -45,7 +45,10 @@ bool Victim::check(unsigned long long int tarTag, unsigned int tarIndex){
            curr = curr->next;
        }
     }
-    return true;
+    if(curr->element->valid){
+        return true;
+    }
+    return false;
 }
 
 bool Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, unsigned long long int newTag, unsigned int newIndex){
@@ -58,7 +61,7 @@ bool Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, unsigned
         //Delete the oldAddr node
         VicNode* curr = this->head;
         VicNode* before = NULL;
-        while(curr->element->tag != oldTag && curr->element->index != oldIndex){
+        while((curr->element->tag != oldTag) || (curr->element->index != oldIndex)){
             before = curr;
             curr = curr->next;
         }
@@ -89,10 +92,6 @@ bool Victim::push(unsigned long long int tarTag, unsigned int tarIndex){
         curr = curr->next;
     }
     before->next = NULL;
-    /*VicNode* thead = new VicNode;
-    VcacheElem* tempe = new VcacheElem;
-    thead->element = tempe;
-    delete(curr);*/
     curr->next = this->head;
     this->head = curr;
     curr->element->tag = tarTag;
