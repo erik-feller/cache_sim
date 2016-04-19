@@ -49,9 +49,6 @@ private:
 	int costMem;
 	int costTotal;
 
-	//keep the size of the blocks in L1
-	int L1BlockSize;
-
 
 	//make the levels of the cache
 	Memory* mem;

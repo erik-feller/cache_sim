@@ -20,9 +20,6 @@ CacheSystem::CacheSystem(map<string,int> conf) {
 	this->track.numReads = 0;
 	this->track.numWrites = 0;
 
-	//keep the L1 block size (used in finding the number of requests needed)
-	this->L1BlockSize = conf["L1_block_size"];
-
 	//make memory
 //	struct memConfig memConf;
 	this->mem = new Memory();//memConf);
