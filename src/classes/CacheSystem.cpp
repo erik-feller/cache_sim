@@ -19,6 +19,9 @@ CacheSystem::CacheSystem(map<string,int> conf) {
 	this->track.numInst = 0;
 	this->track.numReads = 0;
 	this->track.numWrites = 0;
+	this->track.instCycle = 0;
+	this->track.readCycle = 0;
+	this->track.writeCycle = 0;
 
 	//make memory
 //	struct memConfig memConf;
@@ -70,6 +73,7 @@ void CacheSystem::newInstruction(char op, unsigned long long int address, unsign
 	case 'I':
 		this->track.numInst++;
 		for(int i=0; i<addressList.size(); ++i){
+			this->track.instCycle++;
 			this->track.execTime += this->L1i_cache->read(addressList[i]);
 		}
 		break;
@@ -78,6 +82,7 @@ void CacheSystem::newInstruction(char op, unsigned long long int address, unsign
 	case 'R':
 		this->track.numReads++;
 		for(int i=0; i<addressList.size(); ++i){
+			this->track.readCycle++;
 			this->track.execTime += this->L1d_cache->read(addressList[i]);
 		}
 		break;
@@ -86,6 +91,7 @@ void CacheSystem::newInstruction(char op, unsigned long long int address, unsign
 	case 'W':
 		this->track.numWrites++;
 		for(int i=0; i<addressList.size(); ++i){
+			this->track.writeCycle++;
 			this->track.execTime += this->L1d_cache->write(addressList[i]);
 		}
 		break;
@@ -188,3 +194,53 @@ CacheSystem::~CacheSystem() {
 	delete this->mem;
 }
 
+
+void CacheSystem::reportData(){
+	//calculate some stuff
+	unsigned long long int totalRefs = this->track.numInst + this->track.numReads + this->track.numWrites;
+	unsigned long long int dataRefs = this->track.numReads + this->track.numWrites;
+	unsigned long long int totalCycles = this->track.instCycle + this->track.readCycle + this->track.writeCycle;
+
+	//report the system configuration
+
+	//report refs and exec times
+	cout << "Execute time = " << this->track.execTime << "   Total refs = " << totalRefs << endl;
+	cout << "Inst refs = " << this->track.numInst << "   Data refs = " << dataRefs << endl;
+	cout << endl;
+
+	//report reference types and percentages
+	cout << "Number of reference types:   [Percentage]" << endl;
+	cout << "Reads  = " << this->track.numReads << "   [";
+	cout << (float) ((this->track.numReads / totalRefs) * 100) << ']' << endl;
+	cout << "Writes = " << this->track.numWrites << "   [";
+	cout << (float) ((this->track.numWrites / totalRefs) * 100) << ']' << endl;
+	cout << "Instr  = " << this->track.numInst << "   [";
+	cout << (float) ((this->track.numInst / totalRefs) * 100) << ']' << endl;
+	cout << "Total  = " << totalRefs << endl;
+	cout << endl;
+
+	//report cycles types and percentages
+	cout << "Total cycles for activities:   [Percentage]" << endl;
+	cout << "Reads  = " << this->track.readCycle << "   [";
+	cout << (float) ((this->track.readCycle / totalCycles) * 100) << ']' << endl;
+	cout << "Writes = " << this->track.writeCycle << "   [";
+	cout << (float) ((this->track.writeCycle / totalCycles) * 100) << ']' << endl;
+	cout << "Instr  = " << this->track.instCycle << "   [";
+	cout << (float) ((this->track.instCycle / totalCycles) * 100) << ']' << endl;
+	cout << "Total  = " << totalRefs << endl;
+	cout << endl;
+
+	//do cpi stuff?
+	//TODO: the cpi reporting stuff
+
+	//various memory levels reporting
+	this->L1i_cache->getTrackingData();
+	this->L1d_cache->getTrackingData();
+	this->L2_cache->getTrackingData();
+
+	//cost stuff
+	this->reportCost();
+
+
+
+}

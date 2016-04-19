@@ -24,6 +24,9 @@ struct sysAnalytics{
 	unsigned long long int numReads;
 	unsigned long long int numWrites;
 	unsigned long long int numInst;
+	unsigned long long int readCycle;
+	unsigned long long int writeCycle;
+	unsigned long long int instCycle;
 	unsigned long long int execTime;
 };
 
@@ -33,6 +36,7 @@ public:
 	CacheSystem(map<string,int> conf);
 	void newInstruction(char op, unsigned long long int address, unsigned int numBytes);
 	void reportCost(void);
+	void reportData(void);
 	virtual ~CacheSystem();
 
 private:
