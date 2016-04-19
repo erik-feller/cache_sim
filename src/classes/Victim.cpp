@@ -25,10 +25,17 @@ Victim::Victim() {
         curr->next = NULL;
         temp = new VcacheElem;
         temp->dirty = false;
-        temp->valid = 0;
+        temp->valid = false;
         curr->element = temp;
     }
     this->head = thead;
+}
+
+VcacheElem* check_dirty(){
+    //Return the address of the last dirty kickout then set to null;
+    VcacheElem* temp = this->dirt_kick;
+    this->dirt_kick = NULL;
+    return temp;
 }
 
 bool Victim::check(unsigned long long int tarTag, unsigned int tarIndex){
@@ -47,7 +54,7 @@ bool Victim::check(unsigned long long int tarTag, unsigned int tarIndex){
     return true;
 }
 
-bool Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, unsigned long long int newTag, unsigned int newIndex){
+unsigned int Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, unsigned long long int newTag, unsigned int newIndex){
     //check to see if addr is actually in cache
     if(!this->check(oldTag, oldIndex)){
        this->push(newTag, newIndex);
@@ -82,7 +89,8 @@ bool Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, unsigned
 
 bool Victim::push(unsigned long long int tarTag, unsigned int tarIndex){
     //pushes a new item onto the stack discarding the least recently used one.
-    //delete the last item
+    //if the least recently used item was a dirty store in the dirty_kick var
+    bool d_state; //placeholder for dirty state var
     VicNode* curr = this->head;
     VicNode* before = NULL;
     while(curr->next != NULL){
@@ -92,20 +100,21 @@ bool Victim::push(unsigned long long int tarTag, unsigned int tarIndex){
     before->next = NULL;
     VicNode* thead = new VicNode;
     thead->element = curr->element;
-    delete(curr);
+    d_state = curr->dirty;
+    
     thead->next = this->head;
     this->head = thead;
     thead->element->tag = tarTag;
     thead->element->index = tarIndex;
     thead->element->valid = true;
     thead->element->dirty = true;
-    return true;
+    return d_state;
         
 }
 
 void Victim::reorder(unsigned long long int tarTag, unsigned int tarIndex){
     //TODO place the targe on top of the victim cache
-    VicNode* curr;
+    VicNode* curr = this->head;
     VicNode* before = NULL;
     while(curr->element->tag != tarTag && curr->element->index != tarIndex && curr->next != NULL){
         before = curr; 
