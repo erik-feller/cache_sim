@@ -96,6 +96,7 @@ int L2::transferRead(unsigned long long int address){
 	//if we make it to this point, the block isn't in the L2 cache. :(
 	int totalTime = this->conf.missTime;
 	totalTime += this->blockTransferTime;
+    totalTime += this->conf.hitTime;
 
 	//transfer the value from the next level (and get time it took to do that)
 	//TODO: uncomment this for the analog memory function

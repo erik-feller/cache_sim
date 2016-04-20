@@ -95,6 +95,7 @@ int L1::read(unsigned long long int address){
 
 	//if we make it to this point, the block isn't in the L1 or victim. :(
 	int totalTime = this->conf.missTime;
+    totalTime += this->conf.hitTime;
 
 	//transfer the value from the next level (and get time it took to do that)
 	totalTime += this->next->transferRead(address);
