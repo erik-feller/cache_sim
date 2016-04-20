@@ -105,7 +105,7 @@ bool Victim::push(unsigned long long int tarTag, unsigned int tarIndex){
 
 void Victim::reorder(unsigned long long int tarTag, unsigned int tarIndex){
     //TODO place the targe on top of the victim cache
-    VicNode* curr;
+    VicNode* curr = this->head;
     VicNode* before = NULL;
     while(curr->element->tag != tarTag && curr->element->index != tarIndex && curr->next != NULL){
         before = curr; 
