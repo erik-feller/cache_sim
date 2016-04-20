@@ -24,8 +24,12 @@ CacheSystem::CacheSystem(map<string,int> conf) {
 	this->track.writeCycle = 0;
 
 	//make memory
-//	struct memConfig memConf;
-	this->mem = new Memory();//memConf);
+	struct memConf memC;
+	memC.chunksize = conf["mem_chunksize"];
+	memC.chunktime = conf["mem_chunktime"];
+	memC.ready = conf["mem_ready"];
+	memC.sendaddr = conf["mem_sendaddr"];
+	this->mem = new Memory(memC);
 
 	//make L2
 	struct L2TransConfig L2tConf;

@@ -31,29 +31,31 @@ int main(int argc, char** argv) {
 
 	//create the cache system
 	CacheSystem cs = CacheSystem(conf);
-	cs.reportCost();
 
 
-
-	//check that we are getting input from a pipe
-	if(isatty(fileno(stdin))){
-		cout << "Please pipe in the trace file. Exiting." << endl;
-		return 2;
-	}
-	else{
+//	//check that we are getting input from a pipe
+//	if(isatty(fileno(stdin))){
+//		cout << "Please pipe in the trace file. Exiting." << endl;
+//		return 2;
+//	}
+//	else{
 		//grab each line from the pipe
 		char op;
         unsigned long long int address;
         unsigned int bytesize;
         while(scanf("%c %Lx %d\n", &op, &address, &bytesize) == 3){
             //Process here
-            printf("Operation is %c\n", op);
-            printf("Address is %Lx\n", address);
-            printf("Size is %d\n", bytesize);
+//            printf("Operation is %c\n", op);
+//            printf("Address is %Lx\n", address);
+//            printf("Size is %d\n", bytesize);
+
+        	cs.newInstruction(op,address,bytesize);
 
         }
 
-	}
+        cs.reportData();
+
+//	}
 
 
 	return 0;
