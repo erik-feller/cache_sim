@@ -68,11 +68,12 @@ bool Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, unsigned
         //create a new node and append it to the head
         VicNode* tnew = new VicNode;
         tnew->next = head;
-        curr->element->tag = newTag;
-        curr->element->index = newIndex;
-        curr->element->valid = true;
-        curr->element->dirty = true;
-        tnew->element = curr->element;
+        VcacheElem* temp = new VcacheElem;
+        temp->tag = newTag;
+        temp->index = newIndex;
+        temp->valid = true;
+        temp->dirty = true;
+        tnew->element = temp;
         this->head = tnew;
         delete(curr);
     }
