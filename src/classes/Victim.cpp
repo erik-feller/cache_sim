@@ -92,7 +92,8 @@ bool Victim::push(unsigned long long int tarTag, unsigned int tarIndex){
     }
     before->next = NULL;
     VicNode* thead = new VicNode;
-    thead->element = curr->element;
+    VcacheElem* tempe = new VcacheElem;
+    thead->element = tempe;
     delete(curr);
     thead->next = this->head;
     this->head = thead;
