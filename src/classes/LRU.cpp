@@ -50,19 +50,17 @@ LRU::~LRU() {
 void LRU::update(int t_way){
     LruNode* back = NULL;
     LruNode* curr = head;
-    LruNode* ahead = curr->next; 
-    while((curr->way != t_way) && (ahead != NULL)){
+    while((curr->way != t_way) && (curr->next != NULL)){
         //step through the LRU until the way is found
         back = curr;
-        curr = ahead;
-        ahead = curr->next;
+        curr = curr->next;
     }
-    if(curr == head){
+    if(back == NULL){
         //The buffer is already correct
         return;
     }
     else{
-        back->next = ahead;
+        back->next = curr->next;
         curr->next = head;
         head = curr;
     }
