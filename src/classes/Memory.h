@@ -10,10 +10,23 @@
 
 #include "Cache.h"
 
+struct memConf{
+    unsigned int sendaddr;
+    unsigned int ready;
+    unsigned int chunktime;
+    unsigned int chunksize;
+};
+
 class Memory: public Cache {
 public:
-	Memory();
+	Memory(memConf conf);
+    //Method to read or write
+    unsigned int access(unsigned int blocksize);
 	virtual ~Memory();
+
+private:
+    struct memConf config; //create config settings
+
 };
 
 #endif /* CLASSES_MEMORY_H_ */
