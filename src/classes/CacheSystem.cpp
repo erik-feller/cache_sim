@@ -73,8 +73,9 @@ void CacheSystem::newInstruction(char op, unsigned long long int address, unsign
 	case 'I':
 		this->track.numInst++;
 		for(int i=0; i<addressList.size(); ++i){
-			this->track.instCycle++;
-			this->track.execTime += this->L1i_cache->read(addressList[i]);
+			unsigned long long int cycles = this->L1i_cache->read(addressList[i]);
+			this->track.instCycle += cycles;
+			this->track.execTime += cycles;
 		}
 		break;
 
@@ -82,8 +83,9 @@ void CacheSystem::newInstruction(char op, unsigned long long int address, unsign
 	case 'R':
 		this->track.numReads++;
 		for(int i=0; i<addressList.size(); ++i){
-			this->track.readCycle++;
-			this->track.execTime += this->L1d_cache->read(addressList[i]);
+			unsigned long long int cycles = this->L1d_cache->read(addressList[i]);
+			this->track.readCycle += cycles;
+			this->track.execTime += cycles;
 		}
 		break;
 
@@ -91,8 +93,9 @@ void CacheSystem::newInstruction(char op, unsigned long long int address, unsign
 	case 'W':
 		this->track.numWrites++;
 		for(int i=0; i<addressList.size(); ++i){
-			this->track.writeCycle++;
-			this->track.execTime += this->L1d_cache->write(addressList[i]);
+			unsigned long long int cycles = this->L1d_cache->write(addressList[i]);
+			this->track.writeCycle += cycles;
+			this->track.execTime += cycles;
 		}
 		break;
 
@@ -232,6 +235,7 @@ void CacheSystem::reportData(){
 
 	//do cpi stuff?
 	//TODO: the cpi reporting stuff
+	cout << "CPI stuff would go here...if I knew what to do." << endl << endl;
 
 	//various memory levels reporting
 	this->L1i_cache->getTrackingData();

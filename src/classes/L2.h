@@ -24,6 +24,7 @@ public:
 	L2(Memory* nextLevel, struct config conf, struct L2TransConfig transConf);
 	int transferRead(unsigned long long int address);
 	int transferWrite(unsigned long long int address);
+	int dirtyKickout(unsigned long long int address);
 	virtual ~L2();
 
 private:

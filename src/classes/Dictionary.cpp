@@ -7,8 +7,6 @@
 
 #include "Dictionary.h"
 
-//TODO: need to figure out how to utilize the dirty bit
-
 //constructor...
 Dictionary::Dictionary(unsigned int nIndexes) {
 

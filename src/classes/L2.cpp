@@ -89,15 +89,18 @@ int L2::transferRead(unsigned long long int address){
 	//return the total time it took to do the full operation
 	return totalTime;
 
-
-
-
 }
+
 
 int L2::transferWrite(unsigned long long int address){
 
 	//I'm pretty certain that this is exactly the same as a transfer read...
 	return transferRead(address);
+}
+
+
+int L2::dirtyKickout(unsigned long long int address){
+	//TODO: I think there's gonna be something we need to implement here...
 }
 
 
