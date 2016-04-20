@@ -23,7 +23,7 @@ LRU::LRU(int num_ways) {
         headt->way = 1;
         headt->next = NULL;
         this->head = headt;
-        LruNode* last = NULL;
+        LruNode* last = headt;
         for(int i = 2; i <= num_ways; ++i){
             LruNode* tmp = new LruNode;
             tmp->way = i;
@@ -51,7 +51,7 @@ void LRU::update(int t_way){
     LruNode* back = NULL;
     LruNode* curr = head;
     LruNode* ahead = curr->next; 
-    while(curr->way != t_way && ahead != NULL){
+    while((curr->way != t_way) && (ahead != NULL)){
         //step through the LRU until the way is found
         back = curr;
         curr = ahead;
