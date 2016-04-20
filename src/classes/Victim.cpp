@@ -97,6 +97,7 @@ unsigned int Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, 
         //Delete the oldAddr node
         VicNode* curr = this->head;
         VicNode* before = NULL;
+        //while loop to look for the target element.
         while((curr->element->tag != oldTag) || (curr->element->index != oldIndex)){
             before = curr;
             curr = curr->next;
@@ -104,9 +105,9 @@ unsigned int Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, 
         //check to see if oldAddr is already at the top.
         if(before!=NULL){
             before->next = curr->next;
+            curr->next = this->head;
+            this->head = curr;
         }
-        //create a new node and append it to the head
-        VicNode* tnew = head;
         //set up the vic if the evicted member is dirty
         if(curr->element->dirty){
             this->vic->tag = curr->element->tag;
@@ -123,10 +124,8 @@ unsigned int Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, 
         curr->element->index = newIndex;
         curr->element->valid = true;
         curr->element->dirty = tarD;
-        curr->next = tnew;
-        this->head = curr;
+
     }
-    return true;
         
 }
 
