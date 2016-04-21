@@ -63,6 +63,25 @@ struct address Way::makeTagIndex(unsigned long long int address){
 
 	//return address, index, block offset
 	return ret;
+}
+
+
+void Way::printFinalStatus(void){
+
+	cout << "Memory level: " << conf.name << endl;
+
+	for(int i=0;i<conf.assoc;++i){
+		cout << "Way: " << i << endl;
+		for (int j=0;j<conf.numIndexes;++j){
+			//get the item in question
+			struct cacheElem* elem = this->d[i]->getItem(j);
+			if(elem->valid){
+				cout << "Index: " << hex << j << " | D:" << elem->dirty << " |  Tag:" << hex << elem->tag << endl;
+			}
+		}
+		cout << "------------------------------------------------" << endl;
+	}
+	cout << endl;
 
 }
 

@@ -66,11 +66,31 @@ int L1::read(unsigned long long int address){
 
 
 	//check the victim cache
-	if(this->v->swap(elemToReplace->tag, addr.index, addr.tag, addr.index)){
-		//have a hit
-		this->track.vcHitCount++;
-		//return the time
+	int ret = this->v->swap(elemToReplace->tag, addr.index, addr.tag, addr.index, elemToReplace->dirty);
+	switch(ret){
+	//miss clean evict
+	case 0:
+		//no need to do any write back, need to handle the miss
+		break;
+
+	//miss dirty evict
+	case 1:
+		//do dirty kickout and handle miss
+		break;
+
+	//hit clean evict
+	case 2:
+		//just return the hit time
+		this->track.hitCount++;
 		return this->conf.hitTime;
+		break;
+
+	//hit dirty evict
+	case 3:
+		//return hit time
+		this->track.hitCount++;
+		return this->conf.hitTime;//TODO: + dirty kickout transfer?
+		break;
 	}
 
 	//if we make it to this point, the block isn't in the L1 or victim. :(
@@ -142,15 +162,31 @@ int L1::write(unsigned long long int address){
 
 
 	//check the victim cache
-	if(this->v->swap(elemToReplace->tag, addr.index, addr.tag, addr.index)){
+	int ret = this->v->swap(elemToReplace->tag, addr.index, addr.tag, addr.index, elemToReplace->dirty);
+	switch(ret){
+	//miss clean evict
+	case 0:
+		//no need to do any write back, need to handle the miss
+		break;
 
-		//TODO: set that specific thing to dirty
+	//miss dirty evict
+	case 1:
+		//do dirty kickout and handle miss
+		break;
 
-		//hit victim cache
-		this->track.vcHitCount++;
-
-		//have a hit return the time
+	//hit clean evict
+	case 2:
+		//just return the hit time
+		this->track.hitCount++;
 		return this->conf.hitTime;
+		break;
+
+	//hit dirty evict
+	case 3:
+		//return hit time
+		this->track.hitCount++;
+		return this->conf.hitTime;//TODO: + dirty kickout transfer?
+		break;
 	}
 
 

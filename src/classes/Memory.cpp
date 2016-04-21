@@ -18,7 +18,6 @@ unsigned int Memory::access(unsigned int blocksize){
 }
 
 Memory::~Memory() {
-	// TODO Auto-generated destructor stub
-    delete(&(this->config));
+	//don't need to do anything here...
 }
 

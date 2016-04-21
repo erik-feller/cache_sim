@@ -31,8 +31,8 @@ Cache::~Cache() {
 
 void Cache::getTrackingData(void){
 	//calculate percentages
-	float hitRate = (this->track.hitCount / this->track.totalReq) *100;
-	float missRate = (this->track.missCount / this->track.totalReq) *100;
+	float hitRate = ((float)this->track.hitCount / this->track.totalReq) *100;
+	float missRate = ((float)this->track.missCount / this->track.totalReq) *100;
 
 
 	cout << "Memory Level: " << this->track.name << endl;
@@ -42,6 +42,7 @@ void Cache::getTrackingData(void){
 	cout << "  " << "Kickouts = " << this->track.kickouts << "  Dirty Kickouts = " << this->track.dirtyKickouts << endl;
 	cout << "  " << "Transfers = " << this->track.transfers << endl;
 	cout << "  " << "VC Hit Count = " << this->track.vcHitCount << endl;
+	cout << endl;
 }
 
 

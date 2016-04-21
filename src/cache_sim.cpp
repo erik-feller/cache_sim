@@ -55,6 +55,10 @@ int main(int argc, char** argv) {
 
         cs.reportData();
 
+        cs.reportState();
+
+
+
 //	}
 
 

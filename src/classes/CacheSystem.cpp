@@ -177,7 +177,7 @@ void CacheSystem::calcCost(map<string,int> conf){
 	this->costMem = memLatencyCost + memBandCost;
 
 	//total cost
-	this->costTotal = this->costL1 + this->costL2 + this->costMem;
+	this->costTotal = this->costL1*2 + this->costL2 + this->costMem;
 }
 
 
@@ -188,6 +188,7 @@ void CacheSystem::reportCost(void) {
 	cout << "L2 cache cost = $" << this->costL2;
 	cout << "; Memory cost = $" << this->costMem;
 	cout << "; Total cost = $" << this->costTotal << endl;
+	cout << endl;
 
 }
 
@@ -217,24 +218,24 @@ void CacheSystem::reportData(){
 
 	//report reference types and percentages
 	cout << "Number of reference types:   [Percentage]" << endl;
-	cout << "Reads  = " << this->track.numReads << "   [";
-	cout << (float) ((this->track.numReads / totalRefs) * 100) << ']' << endl;
-	cout << "Writes = " << this->track.numWrites << "   [";
-	cout << (float) ((this->track.numWrites / totalRefs) * 100) << ']' << endl;
-	cout << "Instr  = " << this->track.numInst << "   [";
-	cout << (float) ((this->track.numInst / totalRefs) * 100) << ']' << endl;
+	cout << "Reads  = " << this->track.numReads << "   [ ";
+	cout << (((float) this->track.numReads / totalRefs) * 100) << "% ]" << endl;
+	cout << "Writes = " << this->track.numWrites << "   [ ";
+	cout << (((float) this->track.numWrites / totalRefs) * 100) << "% ]" << endl;
+	cout << "Instr  = " << this->track.numInst << "   [ ";
+	cout << (((float) this->track.numInst / totalRefs) * 100) << "% ]" << endl;
 	cout << "Total  = " << totalRefs << endl;
 	cout << endl;
 
 	//report cycles types and percentages
 	cout << "Total cycles for activities:   [Percentage]" << endl;
-	cout << "Reads  = " << this->track.readCycle << "   [";
-	cout << (float) ((this->track.readCycle / totalCycles) * 100) << ']' << endl;
-	cout << "Writes = " << this->track.writeCycle << "   [";
-	cout << (float) ((this->track.writeCycle / totalCycles) * 100) << ']' << endl;
-	cout << "Instr  = " << this->track.instCycle << "   [";
-	cout << (float) ((this->track.instCycle / totalCycles) * 100) << ']' << endl;
-	cout << "Total  = " << totalRefs << endl;
+	cout << "Reads  = " << this->track.readCycle << "   [ ";
+	cout << (((float)this->track.readCycle / totalCycles) * 100) << "% ]" << endl;
+	cout << "Writes = " << this->track.writeCycle << "   [ ";
+	cout << (((float) this->track.writeCycle / totalCycles) * 100) << "% ]" << endl;
+	cout << "Instr  = " << this->track.instCycle << "   [ ";
+	cout << (((float) this->track.instCycle / totalCycles) * 100) << "% ]" << endl;
+	cout << "Total  = " << totalCycles << endl;
 	cout << endl;
 
 	//do cpi stuff?
@@ -249,6 +250,17 @@ void CacheSystem::reportData(){
 	//cost stuff
 	this->reportCost();
 
+
+
+}
+
+
+void CacheSystem::reportState(void){
+
+	cout << endl << "---------------------------------------------------------------" << endl;
+	this->L1i_cache->printFinalStatus();
+	this->L1d_cache->printFinalStatus();
+	this->L2_cache->printFinalStatus();
 
 
 }

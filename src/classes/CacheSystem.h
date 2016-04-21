@@ -37,6 +37,7 @@ public:
 	void newInstruction(char op, unsigned long long int address, unsigned int numBytes);
 	void reportCost(void);
 	void reportData(void);
+	void reportState(void);
 	virtual ~CacheSystem();
 
 private:

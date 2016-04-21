@@ -48,7 +48,7 @@ bool Dictionary::check(unsigned int index, unsigned long long int checkTag){
 }
 
 //change the specified index to the new tag
-void Dictionary::update(unsigned int index, unsigned int newTag){
+void Dictionary::update(unsigned int index, unsigned long long int newTag){
 
 	//grab the cache element
 	struct cacheElem * elem = this->dict[index];

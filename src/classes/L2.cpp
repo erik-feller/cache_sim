@@ -65,20 +65,41 @@ int L2::transferRead(unsigned long long int address){
 
 
 	//check the victim cache
-	if(this->v->swap(elemToReplace->tag, addr.index, addr.tag, addr.index)){
-		//have a hit
-		this->track.vcHitCount++;
-		//return the time
-		return this->conf.hitTime + this->blockTransferTime;
-	}
+	int ret = this->v->swap(elemToReplace->tag, addr.index, addr.tag, addr.index, elemToReplace->dirty);
+		switch(ret){
+		//miss clean evict
+		case 0:
+			//no need to do any write back, need to handle the miss
+			break;
+
+		//miss dirty evict
+		case 1:
+			//do dirty kickout and handle miss
+			break;
+
+		//hit clean evict
+		case 2:
+			//just return the hit time + transfer time
+			this->track.hitCount++;
+			return this->conf.hitTime + this->blockTransferTime;
+			break;
+
+		//hit dirty evict
+		case 3:
+			//return hit time
+			this->track.hitCount++;
+			return this->conf.hitTime + this->blockTransferTime;//TODO: + dirty kickout transfer?
+			break;
+		}
 
 
-	//if we make it to this point, the block isn't in the L1 cache. :(
+	//if we make it to this point, the block isn't in the L2 cache. :(
 	int totalTime = this->conf.missTime;
+	totalTime += this->blockTransferTime;
 
 	//transfer the value from the next level (and get time it took to do that)
 	//TODO: uncomment this for the analog memory function
-//	totalTime += this->next->transferRead(address);
+	totalTime += this->next->access(conf.blockSize);
 
 
 	//TODO: place the thrown out value into victim?

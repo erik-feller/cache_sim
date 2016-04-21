@@ -43,6 +43,7 @@ public:
 
 	Way(struct config conf);
 	struct address makeTagIndex(unsigned long long int address);
+	void printFinalStatus(void);
 	virtual ~Way();
 
 private:
