@@ -132,7 +132,7 @@ vector<unsigned long long int> CacheSystem::getAddrList(unsigned long long int a
 	while(i<=offset) i+=4;
 
 	//do the first subtraction...
-	bytesRemaining -= 4;
+	bytesRemaining -= (i-offset);
 
 	//get the remaining byte-aligned addresses
 	int numBlocks =0;
