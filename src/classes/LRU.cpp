@@ -75,5 +75,5 @@ int LRU::fetch(void){
    }
 
    //TODO: this doesn't seem be be actually implemented...
-   return 0;
+   return curr->way;
 }
