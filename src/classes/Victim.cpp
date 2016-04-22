@@ -124,6 +124,7 @@ unsigned int Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, 
         curr->element->index = newIndex;
         curr->element->valid = true;
         curr->element->dirty = tarD;
+        return retval;
 
     }
         
