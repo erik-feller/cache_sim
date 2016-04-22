@@ -39,7 +39,7 @@ void Cache::getTrackingData(void){
 	cout << "  " << "Hit Count = " << this->track.hitCount << "  Miss Count = " << this->track.missCount << endl;
 	cout << "  " << "Total Requests = " << this->track.totalReq << endl;
 	cout << "  " << "Hit Rate = " << hitRate << "%  Miss Rate = " << missRate << "%" << endl;
-	cout << "  " << "Kickouts = " << this->track.kickouts << "  Dirty Kickouts = " << this->track.dirtyKickouts << endl;
+	cout << "  " << "Kickouts = " << this->track.kickouts << "  Dirty Kickouts = " << this->track.dirtyKickouts;
 	cout << "  " << "Transfers = " << this->track.transfers << endl;
 	cout << "  " << "VC Hit Count = " << this->track.vcHitCount << endl;
 	cout << endl;

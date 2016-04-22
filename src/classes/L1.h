@@ -22,6 +22,7 @@ public:
 	virtual ~L1();
 
 private:
+	unsigned long long int makeKickoutAddr(unsigned long long int tag, unsigned int index);
 	L2* next;
 
 };
