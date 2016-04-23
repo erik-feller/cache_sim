@@ -81,6 +81,8 @@ void CacheSystem::newInstruction(char op, unsigned long long int address, unsign
 			this->track.instCycle += cycles;
 			this->track.execTime += cycles;
 		}
+		this->track.instCycle++;
+		this->track.execTime++;
 		break;
 
 	//data read

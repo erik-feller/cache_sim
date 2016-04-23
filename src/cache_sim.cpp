@@ -45,17 +45,13 @@ int main(int argc, char** argv) {
         unsigned int bytesize;
         while(scanf("%c %Lx %d\n", &op, &address, &bytesize) == 3){
             //Process here
-//            printf("Operation is %c\n", op);
-//            printf("Address is %Lx\n", address);
-//            printf("Size is %d\n", bytesize);
-
         	cs.newInstruction(op,address,bytesize);
 
         }
 
         cs.reportData();
 
-        cs.reportState();
+//        cs.reportState();
 
 
 

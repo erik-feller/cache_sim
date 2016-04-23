@@ -24,7 +24,7 @@ LRU::LRU(int num_ways) {
         headt->next = NULL;
         this->head = headt;
         LruNode* last = headt;
-        for(int i = 2; i <= num_ways; ++i){
+        for(unsigned int i = 2; i <= num_ways; ++i){
             LruNode* tmp = new LruNode;
             tmp->way = i;
             tmp->next = NULL;
@@ -36,9 +36,10 @@ LRU::LRU(int num_ways) {
 }
 
 LRU::~LRU() {
-	// TODO Auto-generated destructor stub
+    //Set up handles for walking thru
     LruNode* current = NULL; //set up current node
     LruNode* ahead = head; //set ahead to fall into head pointer
+    //loop through deleting the 
     while(ahead != NULL){
         //Delete current node and move on
         current = ahead;
@@ -50,32 +51,30 @@ LRU::~LRU() {
 void LRU::update(int t_way){
     LruNode* back = NULL;
     LruNode* curr = head;
-    LruNode* ahead = curr->next; 
-    while((curr->way != t_way) && (ahead != NULL)){
+    while((curr->way != t_way) && (curr->next != NULL)){
         //step through the LRU until the way is found
         back = curr;
-        curr = ahead;
-        ahead = curr->next;
+        curr = curr->next;
     }
-    if(curr == head){
+    if(back == NULL){
         //The buffer is already correct
         return;
     }
     else{
-        back->next = ahead;
+        back->next = curr->next;
         curr->next = head;
         head = curr;
     }
 
 }
 
-int LRU::fetch(void){
+int LRU::fetch(){
    //Search to determine which way to kick 
    LruNode* curr = this->head;
+   int way;
    while(curr->next != NULL){
+       way = curr->way;
        curr = curr->next;
    }
-
-   //TODO: this doesn't seem be be actually implemented...
-   return 0;
+   return way;
 }
