@@ -42,6 +42,7 @@ int L2::transferRead(unsigned long long int address){
 
 	//miss
 	this->track.missCount++;
+//	this->track.transfers++;
 
 
 	//it isn't in the main cache, look in victim...
@@ -108,6 +109,7 @@ int L2::transferRead(unsigned long long int address){
 
 
 	//if we make it to this point, the block isn't in the L2 cache. :(
+	this->track.transfers++;
 	int totalTime = this->conf.missTime;
 	totalTime += this->blockTransferTime;
     totalTime += this->conf.hitTime;

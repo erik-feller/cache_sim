@@ -23,6 +23,16 @@ CacheSystem::CacheSystem(map<string,int> conf) {
 	this->track.readCycle = 0;
 	this->track.writeCycle = 0;
 
+
+	//print out the system configuration
+	cout << "Memory System:" << endl;
+	cout << "  Dcache size = " << conf["L1_block_size"] << " : ways = " << conf["L1_assoc"] << " : block size = " << conf["L1_block_size"] << endl;
+	cout << "  Icache size = " << conf["L1_block_size"] << " : ways = " << conf["L1_assoc"] << " : block size = " << conf["L1_block_size"] << endl;
+	cout << "  L2-cache size = " << conf["L2_block_size"] << " : ways = " << conf["L2_assoc"] << " : block size = " << conf["L2_block_size"] << endl;
+	cout << "  Memory Ready Time = " << conf["mem_ready"] << " : chunksize = " << conf["mem_chunksize"] << " : chunktime = " << conf["mem_chunktime"] << endl;
+	cout << endl;
+
+
 	//make memory
 	struct memConf memC;
 	memC.chunksize = conf["mem_chunksize"];
@@ -160,7 +170,8 @@ void CacheSystem::calcCost(map<string,int> conf){
 	//L1
 	this->costL1 = (conf["L1_cache_size"] / 4096) * 100;
 	if (conf["L1_assoc"] != 1){
-		this->costL1 += (conf["L1_assoc"] / 2) *100;
+		//TODO: this is not correct!
+		this->costL1 += ((conf["L1_assoc"] / 2)) *100;
 	}
 	//L2
 	this->costL2 = (conf["L2_cache_size"] / 16384) * 50;
