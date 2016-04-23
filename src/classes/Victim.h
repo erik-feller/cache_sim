@@ -41,12 +41,6 @@ private:
 	bool check(unsigned long long int tarTag, unsigned int tarIndex);
     //Add item to the chache. Kickout the least recent member
     bool push(unsigned long long int tarTag, unsigned int tarIndex, bool tarD);
-	//dirty kickout
-    //re-order
-    void reorder(unsigned long long int tarTag, unsigned int tarIndex);
-    //check for addr
-
-	//i dont know...
 
 
 

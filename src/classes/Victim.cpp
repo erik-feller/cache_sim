@@ -2,7 +2,7 @@
  * Victim.cpp
  *
  *  Created on: Apr 12, 2016
- *      Author: bryan&erik
+ *      Author: bryan & erik
  *      
  *  Only run the swap function which will automatically determine if the requested block is present as 
  *  well as determine if the kickout was dirty. it will return an integer from 0-3 and the output is
@@ -15,6 +15,9 @@
  *
  *  After a 1 or 2 is returned, the functhion check_dirt should be called to retrieve the information
  *  from the most recently evicted member of the VC. This will return a null if this member is invalid
+ *
+ *  NOTE: The input is not sanitized to deal with invalid input. So if a cache element is invalid,
+ *  DO NOT run swap with those values.
  */
 
 #include "Victim.h"
@@ -63,47 +66,55 @@ VcacheElem* Victim::check_dirt(){
 }
 
 bool Victim::check(unsigned long long int tarTag, unsigned int tarIndex){
-    // TODO add code to check for an address
+    //Create a point for tracking
     VicNode* curr = this->head;
-    while((curr->element->tag != tarTag) || (curr->element->index != tarIndex)){
-       //check to see if at the end of viccache
-       if(curr->next == NULL){
-           return false;
+    //Loop through looking to see if there is a valid match for the target
+    while(curr->next != NULL){
+       if(curr->element->tag == tarTag && curr->element->index == tarIndex && curr->element->valid){
+           return true;
        }
-       else{
-           curr = curr->next;
-       }
+       //Step forward throught the list
+       curr = curr->next;
     }
-    if(curr->element->valid){
-        return true;
+    //Check the last element in the VC
+    if(curr->element->tag == tarTag && curr->element->index == tarIndex && curr->element->valid){
+           return true;
     }
+    //If we make it through the whole list then we know that the member is not present
     return false;
 }
 
 unsigned int Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, unsigned long long int newTag, unsigned int newIndex, bool tarD){
-    //set up return val
-    unsigned int retval = 3;
+    //set up return val default state of 2 assumes a clean kick
+    unsigned int retval;
     //check to see if addr is actually in cache
     if(!this->check(oldTag, oldIndex)){
+       //run push and determine if the element kicked is dirty
        if(this->push(newTag, newIndex, tarD)){
+           //return 1 for a dirty kickout
            retval = 1;
        }
        else{
+           //return 0 for non dirty kickout
            retval = 0;
        }
        return retval; 
     }
     else{
-        //Delete the oldAddr node
+        //set up some pointers to track position
         VicNode* curr = this->head;
         VicNode* before = NULL;
         //while loop to look for the target element.
-        while((curr->element->tag != oldTag) || (curr->element->index != oldIndex)){
+        while(curr->next != NULL){
+            //If there is a match break out of the loop otherwise increment through the list
+            if(curr->element->tag == oldTag && curr->element->index == oldIndex){
+                break;
+            }
             before = curr;
             curr = curr->next;
         }
-        //check to see if oldAddr is already at the top.
-        if(before!=NULL){
+        //If handle is not the first element, make it so
+        if(before != NULL){
             before->next = curr->next;
             curr->next = this->head;
             this->head = curr;
@@ -114,12 +125,13 @@ unsigned int Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, 
             this->vic->index = curr->element->index;
             this->vic->dirty = true;
             this->vic->valid = true;
-            retval = 4;
+            retval = 3;
         }
         else{
             this->vic->valid = false;
+            retval = 2;
         }
-        //Now move curr
+        //Now change the values in curr
         curr->element->tag = newTag;
         curr->element->index = newIndex;
         curr->element->valid = true;
@@ -134,13 +146,16 @@ bool Victim::push(unsigned long long int tarTag, unsigned int tarIndex, bool tar
     //pushes a new item onto the stack discarding the least recently used one.
     //delete the last item
     //set up retval
-    bool retval = false;
+    bool retval;
+    //Set up tracking pointers
     VicNode* curr = this->head;
     VicNode* before = NULL;
+    //step through until end
     while(curr->next != NULL){
         before = curr;
         curr = curr->next;
     }
+    //Terminate the Victim Cache
     before->next = NULL;
     //if the kicked member was dirty set the vic
     if(curr->element->dirty){
@@ -150,36 +165,21 @@ bool Victim::push(unsigned long long int tarTag, unsigned int tarIndex, bool tar
         this->vic->dirty = true;
         retval = true;
     }
+    //Otherwise invalidate the dirty kicked element
     else{
         this->vic->valid = false;
+        retval = false;
     }
+    //put the last element at the head
     curr->next = this->head;
     this->head = curr;
+    //Set the new values into the new head
     curr->element->tag = tarTag;
     curr->element->index = tarIndex;
     curr->element->valid = true;
     curr->element->dirty = tarD;
     return retval;
         
-}
-
-void Victim::reorder(unsigned long long int tarTag, unsigned int tarIndex){
-    //TODO place the targe on top of the victim cache
-    VicNode* curr = this->head;
-    VicNode* before = NULL;
-    while(curr->element->tag != tarTag && curr->element->index != tarIndex && curr->next != NULL){
-        before = curr; 
-        curr = curr->next;
-    }
-    //if before == NULL then the its the first buffer element
-    if(before == NULL){
-        return;
-    }
-    else{
-        before->next = curr->next;
-        curr->next = this->head;
-        this->head = curr;
-    }
 }
 
 Victim::~Victim() {
