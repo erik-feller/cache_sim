@@ -54,6 +54,9 @@ int L1::read(unsigned long long int address){
 
 	//get the cache elem in question
 	struct cacheElem* elemToReplace = this->d[toReplace]->getItem(addr.index);
+	if(elemToReplace->valid){
+		this->track.kickouts++;
+	}
 
 	//init dirty delay
 	int dirtyDelay = 0;
@@ -164,6 +167,9 @@ int L1::write(unsigned long long int address){
 
 	//get the cache elem in question
 	struct cacheElem* elemToReplace = this->d[toReplace]->getItem(addr.index);
+	if(elemToReplace->valid){
+		this->track.kickouts++;
+	}
 
 
 	//init dirty delay

@@ -59,58 +59,63 @@ int L2::transferRead(unsigned long long int address){
 		this->track.kickouts++;
 	}
 
-	if(elemToReplace->dirty){
-		this->track.dirtyKickouts++;
-		//TODO: handle dirty kickout here
-	}
+//	if(elemToReplace->dirty){
+//		this->track.dirtyKickouts++;
+//		//TODO: handle dirty kickout here
+//	}
 
-
-	//check the victim cache
-	int ret = this->v->swap(elemToReplace->tag, addr.index, addr.tag, addr.index, elemToReplace->dirty);
 	int dirtyDelay = 0;
-	struct VcacheElem* dirtyElem;
-	switch(ret){
-	//the kickout was invalid?
-	//miss clean evict
-	case 0:
-		//no need to do any write back, need to handle the miss
-		dirtyElem = this->v->check_dirt();
-		if (dirtyElem == NULL){
-			//invalid kickout, so don't need to do anything.
+
+	if(elemToReplace->valid){
+
+		//check the victim cache
+		int ret = this->v->swap(elemToReplace->tag, addr.index, addr.tag, addr.index, elemToReplace->dirty);
+
+		struct VcacheElem* dirtyElem;
+		switch(ret){
+		//the kickout was invalid?
+		//miss clean evict
+		case 0:
+			//no need to do any write back, need to handle the miss
+			dirtyElem = this->v->check_dirt();
+			if (dirtyElem == NULL){
+				//invalid kickout, so don't need to do anything.
+				break;
+			}
+			else{
+				//this is a standard kickout
+				this->track.kickouts++;
+			}
+			break;
+
+		//miss dirty evict
+		case 1:
+			//do dirty kickout and handle miss
+			this->track.dirtyKickouts++;
+			dirtyDelay = this->next->access(this->conf.blockSize);
+			break;
+
+		//hit clean evict
+		case 2:
+			//just return the hit time
+			this->track.vcHitCount++;
+			return this->conf.hitTime;
+			break;
+
+		//hit dirty evict
+		case 3:
+			//return hit time
+			this->track.vcHitCount++;
+			return this->conf.hitTime;
 			break;
 		}
-		else{
-			//this is a standard kickout
-			this->track.kickouts++;
-		}
-		break;
-
-	//miss dirty evict
-	case 1:
-		//do dirty kickout and handle miss
-		this->track.dirtyKickouts++;
-		dirtyDelay = this->next->access(this->conf.blockSize);
-		break;
-
-	//hit clean evict
-	case 2:
-		//just return the hit time
-		this->track.vcHitCount++;
-		return this->conf.hitTime;
-		break;
-
-	//hit dirty evict
-	case 3:
-		//return hit time
-		this->track.vcHitCount++;
-		return this->conf.hitTime;
-		break;
 	}
 
 
 	//if we make it to this point, the block isn't in the L2 cache. :(
 	this->track.transfers++;
 	int totalTime = this->conf.missTime;
+	totalTime += dirtyDelay;
 	totalTime += this->blockTransferTime;
     totalTime += this->conf.hitTime;
 
@@ -228,6 +233,7 @@ int L2::dirtyKickout(unsigned long long int address){
 	//if we make it to this point, the block isn't in the L1 cache. :(
 	int totalTime = this->conf.missTime;
 	totalTime += this->conf.hitTime;
+	totalTime += this->blockTransferTime;
 	totalTime += dirtyDelay;
 
 	//transfer the value from the next level (and get time it took to do that)
