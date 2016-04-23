@@ -123,12 +123,11 @@ unsigned int Victim::swap(unsigned long long int oldTag, unsigned int oldIndex, 
         if(curr->element->dirty){
             this->vic->tag = curr->element->tag;
             this->vic->index = curr->element->index;
-            this->vic->dirty = true;
-            this->vic->valid = true;
+            this->vic->dirty = curr->element->dirty;
+            this->vic->valid = curr->element->valid;
             retval = 3;
         }
         else{
-            this->vic->valid = false;
             retval = 2;
         }
         //Now change the values in curr
@@ -161,13 +160,12 @@ bool Victim::push(unsigned long long int tarTag, unsigned int tarIndex, bool tar
     if(curr->element->dirty){
         this->vic->tag = curr->element->tag;
         this->vic->index = curr->element->index;
-        this->vic->valid = true;
-        this->vic->dirty = true;
+        this->vic->valid = curr->element->valid;
+        this->vic->dirty = curr->element->dirty;
         retval = true;
     }
     //Otherwise invalidate the dirty kicked element
     else{
-        this->vic->valid = false;
         retval = false;
     }
     //put the last element at the head
