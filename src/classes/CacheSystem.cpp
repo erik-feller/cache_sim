@@ -26,9 +26,9 @@ CacheSystem::CacheSystem(map<string,int> conf) {
 
 	//print out the system configuration
 	cout << "Memory System:" << endl;
-	cout << "  Dcache size = " << conf["L1_block_size"] << " : ways = " << conf["L1_assoc"] << " : block size = " << conf["L1_block_size"] << endl;
-	cout << "  Icache size = " << conf["L1_block_size"] << " : ways = " << conf["L1_assoc"] << " : block size = " << conf["L1_block_size"] << endl;
-	cout << "  L2-cache size = " << conf["L2_block_size"] << " : ways = " << conf["L2_assoc"] << " : block size = " << conf["L2_block_size"] << endl;
+	cout << "  Dcache size = " << conf["L1_cache_size"] << " : ways = " << conf["L1_assoc"] << " : block size = " << conf["L1_block_size"] << endl;
+	cout << "  Icache size = " << conf["L1_cache_size"] << " : ways = " << conf["L1_assoc"] << " : block size = " << conf["L1_block_size"] << endl;
+	cout << "  L2-cache size = " << conf["L2_cache_size"] << " : ways = " << conf["L2_assoc"] << " : block size = " << conf["L2_block_size"] << endl;
 	cout << "  Memory Ready Time = " << conf["mem_ready"] << " : chunksize = " << conf["mem_chunksize"] << " : chunktime = " << conf["mem_chunktime"] << endl;
 	cout << endl;
 
@@ -168,16 +168,25 @@ vector<unsigned long long int> CacheSystem::getAddrList(unsigned long long int a
 void CacheSystem::calcCost(map<string,int> conf){
 	//calculate cost of system
 	//L1
-	this->costL1 = (conf["L1_cache_size"] / 4096) * 100;
+	int numDoubles = conf["L1_cache_size"] / 4096;
+	this->costL1 = numDoubles * 100;
 	if (conf["L1_assoc"] != 1){
-		//TODO: this is not correct!
-		this->costL1 += ((conf["L1_assoc"] / 2)) *100;
+		if(conf["L1_assoc"] == 2) this->costL1 = 2*numDoubles*100;
+		if(conf["L1_assoc"] == 4) this->costL1 = 3*numDoubles*100;
+		if(conf["L1_assoc"] == 8) this->costL1 = 4*numDoubles*100;
 	}
 	//L2
-	this->costL2 = (conf["L2_cache_size"] / 16384) * 50;
+	numDoubles = conf["L2_cache_size"] / 16384;
+	this->costL2 = numDoubles * 50;
 	if (conf["L2_assoc"] != 1){
-		this->costL2 += (conf["L2_assoc"] / 2) * 50;
+		if(conf["L2_assoc"] == 2) this->costL2 = 2*numDoubles*50;
+		if(conf["L2_assoc"] == 4) this->costL2 = 3*numDoubles*50;
+		if(conf["L2_assoc"] == 8) this->costL2 = 4*numDoubles*50;
 	}
+//	this->costL2 = (conf["L2_cache_size"] / 16384) * 50;
+//	if (conf["L2_assoc"] != 1){
+//		this->costL2 += (conf["L2_assoc"] / 2) * 50;
+//	}
 	//memory
 	int memLatencyCost = 50;
 	if (conf["mem_ready"] != 50){
@@ -253,7 +262,14 @@ void CacheSystem::reportData(){
 
 	//do cpi stuff?
 	//TODO: the cpi reporting stuff
-	cout << "CPI stuff would go here...if I knew what to do." << endl << endl;
+	cout << fixed;
+	cout << "CPI = " << setprecision(1) << (float)totalCycles / this->track.numInst << endl;
+	unsigned long long int idealExec = totalRefs + this->track.numInst;
+	cout << "Ideal exec time = " << idealExec << "; CPI = " << (float)idealExec / this->track.numInst << endl;
+	unsigned long long int misAligned = this->L1i_cache->track.hitCount + this->L1i_cache->track.missCount + this->L1d_cache->track.hitCount + this->L1d_cache->track.missCount + this->track.numInst;
+	cout << "Ideal mis-aligned exec time = " << misAligned << "; CPI = " << (float)misAligned /this->track.numInst << endl;
+	cout << endl;
+	cout << setprecision(4);
 
 	//various memory levels reporting
 	this->L1i_cache->getTrackingData();

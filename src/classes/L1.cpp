@@ -105,6 +105,7 @@ int L1::read(unsigned long long int address){
 		case 3:
 			//return hit time
 			this->track.vcHitCount++;
+			this->d[toReplace]->setDirty(addr.index);
 			return this->conf.hitTime;
 			break;
 		}
@@ -219,6 +220,7 @@ int L1::write(unsigned long long int address){
 		case 3:
 			//return hit time
 			this->track.vcHitCount++;
+			this->d[toReplace]->setDirty(addr.index);
 			return this->conf.hitTime;
 			break;
 		}

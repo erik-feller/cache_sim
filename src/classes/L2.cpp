@@ -106,6 +106,7 @@ int L2::transferRead(unsigned long long int address){
 		case 3:
 			//return hit time
 			this->track.vcHitCount++;
+			this->d[toReplace]->setDirty(addr.index);
 			return this->conf.hitTime;
 			break;
 		}
@@ -224,6 +225,7 @@ int L2::dirtyKickout(unsigned long long int address){
 		case 3:
 			//return hit time
 			this->track.vcHitCount++;
+			this->d[toReplace]->setDirty(addr.index);
 			return this->conf.hitTime;
 			break;
 		}
