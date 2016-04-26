@@ -7,7 +7,7 @@ Memory System:
   L2-cache size = 64 : ways = 1 : block size = 64
   Memory Ready Time = 50 : chunksize = 8 : chunktime = 15
 
-Execute time = 64392213681   Total refs = 10000001164
+Execute time = 63585012821   Total refs = 10000001164
 Inst refs = 7566121173   Data refs = 2433879991
 
 Number of reference types:   [Percentage]
@@ -17,10 +17,10 @@ Instr  = 7566121173   [ 75.6612% ]
 Total  = 10000001164
 
 Total cycles for activities:   [Percentage]
-Reads  = 24909614676   [ 38.6842% ]
-Writes = 19791962589   [ 30.7366% ]
-Instr  = 19690636416   [ 30.5792% ]
-Total  = 64392213681
+Reads  = 24272742256   [ 38.1737% ]
+Writes = 19622997429   [ 30.861% ]
+Instr  = 19689273136   [ 30.9653% ]
+Total  = 63585012821
 
 CPI stuff would go here...if I knew what to do.
 
@@ -39,12 +39,12 @@ Memory Level: L1 - data
   VC Hit Count = 35682800
 
 Memory Level: L2
-  Hit Count = 109223710  Miss Count = 138959885
+  Hit Count = 116680451  Miss Count = 131503144
   Total Requests = 248183595
-  Hit Rate = 44.0092%  Miss Rate = 55.9908%
-  Kickouts = 211845507  Dirty Kickouts = 55322836  Transfers = 132788681
-  VC Hit Count = 6171204
+  Hit Rate = 47.0138%  Miss Rate = 52.9862%
+  Kickouts = 202681517  Dirty Kickouts = 54534688  Transfers = 128910257
+  VC Hit Count = 2592887
 
 L1 cache cost (Icache $100) + (Dcache $100) = $200
-L2 cache cost = $50; Memory cost = $75; Total cost = $325
+L2 cache cost = $100; Memory cost = $75; Total cost = $375
 
