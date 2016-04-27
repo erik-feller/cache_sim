@@ -1,6 +1,8 @@
 Bryan DiLaura & Erik Feller
 Cache Project - Apr. 2016
 
+sjeng.mem-64
+
 Memory System:
   Dcache size = 8192 : ways = 1 : block size = 32
   Icache size = 8192 : ways = 1 : block size = 32
