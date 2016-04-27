@@ -1,0 +1,52 @@
+Bryan DiLaura & Erik Feller
+Cache Project - Apr. 2016
+
+Memory System:
+  Dcache size = 8192 : ways = 1 : block size = 32
+  Icache size = 8192 : ways = 1 : block size = 32
+  L2-cache size = 32768 : ways = 1 : block size = 64
+  Memory Ready Time = 50 : chunksize = 32 : chunktime = 15
+
+Execute time = 87623325730   Total refs = 17300001933
+Inst refs = 12741056222   Data refs = 4558945711
+
+Number of reference types:   [Percentage]
+Reads  = 3299993836   [ 19.0751% ]
+Writes = 1258951875   [ 7.27718% ]
+Instr  = 12741056222   [ 73.6477% ]
+Total  = 17300001933
+
+Total cycles for activities:   [Percentage]
+Reads  = 19520385564   [ 22.2776% ]
+Writes = 10147771659   [ 11.5811% ]
+Instr  = 57955168507   [ 66.1413% ]
+Total  = 87623325730
+
+CPI = 6.9
+Ideal exec time = 30041058155; CPI = 2.4
+Ideal mis-aligned exec time = 40161444400; CPI = 3.2
+
+Memory Level: L1 - inst
+  Hit Count = 21268790896  Miss Count = 446766208
+  Total Requests = 21715557104
+  Hit Rate = 97.9426%  Miss Rate = 2.0574%
+  Kickouts = 446765952  Dirty Kickouts = 0  Transfers = 401688069
+  VC Hit Count = 45078139
+
+Memory Level: L1 - data
+  Hit Count = 5349588900  Miss Count = 355242174
+  Total Requests = 5704831074
+  Hit Rate = 93.7730%  Miss Rate = 6.2270%
+  Kickouts = 502090327  Dirty Kickouts = 126167507  Transfers = 273016177
+  VC Hit Count = 82225997
+
+Memory Level: L2
+  Hit Count = 583613659  Miss Count = 217258094
+  Total Requests = 800871753
+  Hit Rate = 72.8723%  Miss Rate = 27.1277%
+  Kickouts = 354920360  Dirty Kickouts = 54784552  Transfers = 198144335
+  VC Hit Count = 19113759
+
+L1 cache cost (Icache $200) + (Dcache $200) = $400
+L2 cache cost = $100; Memory cost = $375; Total cost = $875
+
