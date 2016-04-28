@@ -1,6 +1,8 @@
 Bryan DiLaura & Erik Feller
 Cache Project - Apr. 2016
 
+astar.All-2way
+
 Memory System:
   Dcache size = 8192 : ways = 2 : block size = 32
   Icache size = 8192 : ways = 2 : block size = 32
