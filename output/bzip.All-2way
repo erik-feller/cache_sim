@@ -1,10 +1,12 @@
 Bryan DiLaura & Erik Feller
 Cache Project - Apr. 2016
 
+bzip.All-2way
+
 Memory System:
-  Dcache size = 32 : ways = 2 : block size = 32
-  Icache size = 32 : ways = 2 : block size = 32
-  L2-cache size = 64 : ways = 2 : block size = 64
+  Dcache size = 8192 : ways = 2 : block size = 32
+  Icache size = 8192 : ways = 2 : block size = 32
+  L2-cache size = 32768 : ways = 2 : block size = 64
   Memory Ready Time = 50 : chunksize = 8 : chunktime = 15
 
 Execute time = 64392213681   Total refs = 10000001164
@@ -22,7 +24,9 @@ Writes = 19791962589   [ 30.7366% ]
 Instr  = 19690636416   [ 30.5792% ]
 Total  = 64392213681
 
-CPI stuff would go here...if I knew what to do.
+CPI = 8.4
+Ideal exec time = 17566122337; CPI = 2.3
+Ideal mis-aligned exec time = 22200012564; CPI = 2.9
 
 Memory Level: L1 - inst
   Hit Count = 12095284219  Miss Count = 1640097
@@ -45,6 +49,6 @@ Memory Level: L2
   Kickouts = 211845507  Dirty Kickouts = 55322836  Transfers = 132788681
   VC Hit Count = 6171204
 
-L1 cache cost (Icache $300) + (Dcache $300) = $600
-L2 cache cost = $150; Memory cost = $75; Total cost = $825
+L1 cache cost (Icache $400) + (Dcache $400) = $800
+L2 cache cost = $200; Memory cost = $75; Total cost = $1075
 
