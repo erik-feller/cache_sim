@@ -1,10 +1,12 @@
 Bryan DiLaura & Erik Feller
 Cache Project - Apr. 2016
 
+sjeng.L1-8way
+
 Memory System:
-  Dcache size = 32 : ways = 8 : block size = 32
-  Icache size = 32 : ways = 8 : block size = 32
-  L2-cache size = 64 : ways = 1 : block size = 64
+  Dcache size = 8192 : ways = 8 : block size = 32
+  Icache size = 8192 : ways = 8 : block size = 32
+  L2-cache size = 32768 : ways = 1 : block size = 64
   Memory Ready Time = 50 : chunksize = 8 : chunktime = 15
 
 Execute time = 95232448927   Total refs = 17300001933
@@ -22,7 +24,9 @@ Writes = 11756323413   [ 12.3449% ]
 Instr  = 66030823706   [ 69.3365% ]
 Total  = 95232448927
 
-CPI stuff would go here...if I knew what to do.
+CPI = 7.5
+Ideal exec time = 30041058155; CPI = 2.5
+Ideal mis-aligned exec time = 40161444400; CPI = 3.2
 
 Memory Level: L1 - inst
   Hit Count = 21277658270  Miss Count = 437898834
@@ -45,6 +49,6 @@ Memory Level: L2
   Kickouts = 290626897  Dirty Kickouts = 35376493  Transfers = 159435329
   VC Hit Count = 9179810
 
-L1 cache cost (Icache $600) + (Dcache $600) = $1200
-L2 cache cost = $100; Memory cost = $75; Total cost = $1375
+L1 cache cost (Icache $800) + (Dcache $800) = $1600
+L2 cache cost = $100; Memory cost = $75; Total cost = $1775
 
