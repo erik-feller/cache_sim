@@ -24,7 +24,7 @@ Writes = 19791962589   [ 30.7366% ]
 Instr  = 19690636416   [ 30.5792% ]
 Total  = 64392213681
 
-CPI = 8.4
+CPI = 8.5
 Ideal exec time = 17566122337; CPI = 2.3
 Ideal mis-aligned exec time = 22200012564; CPI = 2.9
 
