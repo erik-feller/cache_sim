@@ -1,10 +1,12 @@
 Bryan DiLaura & Erik Feller
 Cache Project - Apr. 2016
 
+sjeng.L1-small-4way
+
 Memory System:
-  Dcache size = 32 : ways = 4 : block size = 32
-  Icache size = 32 : ways = 4 : block size = 32
-  L2-cache size = 64 : ways = 1 : block size = 64
+  Dcache size = 4096 : ways = 4 : block size = 32
+  Icache size = 4096 : ways = 4 : block size = 32
+  L2-cache size = 32768 : ways = 1 : block size = 64
   Memory Ready Time = 50 : chunksize = 8 : chunktime = 15
 
 Execute time = 130738122577   Total refs = 17300001933
@@ -22,7 +24,9 @@ Writes = 15337604975   [ 11.7315% ]
 Instr  = 81973503260   [ 62.7005% ]
 Total  = 130738122577
 
-CPI stuff would go here...if I knew what to do.
+CPI = 13.2
+Ideal exec time = 30041058155; CPI = 2.5
+Ideal mis-aligned exec time = 40161444400; CPI = 3.2
 
 Memory Level: L1 - inst
   Hit Count = 21027799101  Miss Count = 687758003
