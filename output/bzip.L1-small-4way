@@ -1,10 +1,12 @@
 Bryan DiLaura & Erik Feller
 Cache Project - Apr. 2016
 
+bzip.L1-small-4way
+
 Memory System:
-  Dcache size = 32 : ways = 4 : block size = 32
-  Icache size = 32 : ways = 4 : block size = 32
-  L2-cache size = 64 : ways = 1 : block size = 64
+  Dcache size = 4096 : ways = 4 : block size = 32
+  Icache size = 4096 : ways = 4 : block size = 32
+  L2-cache size = 32768 : ways = 1 : block size = 64
   Memory Ready Time = 50 : chunksize = 8 : chunktime = 15
 
 Execute time = 61740337336   Total refs = 10000001164
@@ -22,7 +24,9 @@ Writes = 18271442669   [ 29.594% ]
 Instr  = 20230042329   [ 32.7663% ]
 Total  = 61740337336
 
-CPI stuff would go here...if I knew what to do.
+CPI = 8.2
+Ideal exec time = 17566122337; CPI = 2.3
+Ideal mis-aligned exec time = 22200012564; CPI = 2.9
 
 Memory Level: L1 - inst
   Hit Count = 12078082825  Miss Count = 18841491
